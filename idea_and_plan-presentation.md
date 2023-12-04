@@ -38,7 +38,18 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 - single domain/class with high variability
 - only one instance of each item present
 
+---
 
+# Methods 
+
+Some level of machine learning would be required to locate the object. We would like to avoid having it do the comparison due to the inherent need for dynamic collection management.
+This makes it stand out 
+
+---
+
+# performance
+
+We would like to minimize the time it takes for the person photographing the object to recieve a result. Object tracking time and image comparison time.
 
 ---
 
