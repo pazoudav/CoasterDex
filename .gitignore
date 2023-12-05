@@ -1,0 +1,5 @@
+**/__pycache__
+dataset/coaster-photo/*
+dataset/coaster-scans/*
+dataset/coco128
+.vscode
