@@ -16,6 +16,7 @@
 
 
 ## datasets:
+- **our coasters:** https://drive.google.com/drive/u/0/folders/1-mbx7m6ip5jSAHqWrjYVZnycrpnBGWIF
 - coasters: https://www.beer-coasters.eu/cz/sbirka-pivnich-tacku.html?continent=ev
 - google landmark v2: https://openaccess.thecvf.com/content_CVPR_2020/html/Weyand_Google_Landmarks_Dataset_v2_-_A_Large-Scale_Benchmark_for_Instance-Level_CVPR_2020_paper.html, https://github.com/cvdfoundation/google-landmark
 - grocery store items: https://github.com/tobiagru/ObjectDetectionGroceryProducts/blob/master/README.md
