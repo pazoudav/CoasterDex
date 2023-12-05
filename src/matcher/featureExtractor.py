@@ -1,8 +1,9 @@
 import cv2 as cv
+from matcher.vlad.utils import RootSIFT as rtsift
 
 class FeaturesExtractor:
     def extract(self, image):
-        return None
+        return [], []
 
 class SIFT(FeaturesExtractor):
     def __init__(self) -> None:
@@ -18,6 +19,7 @@ class SIFT(FeaturesExtractor):
     
 class rootSIFT(SIFT):
     def extract(self, image):
-        descriptors =  super().encode(image)
+        key_points, descriptors =  super().encode(image)
+        return key_points, rtsift(descriptors)
 
 
