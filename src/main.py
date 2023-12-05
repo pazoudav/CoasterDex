@@ -47,14 +47,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cap = get_source(args)
     
-    if args.no_match:
-        matcher = None
-    else:
-        matcher = CoasterMatcher()
-    if args.no_find:
-        finder = None
-    else:
-        finder = CoasterFinder()
+    matcher = None if args.no_match else CoasterMatcher()
+    finder = None if args.no_find else CoasterFinder()
     
     while main_loop(matcher, finder):
         ...
