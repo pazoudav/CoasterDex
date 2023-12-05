@@ -49,9 +49,18 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 
 - **CNN based**
     - pertained CNN model -> feature vectors from layer
-    - model trained to crate a small feature vector
+    - model trained to create a small feature vector
 
 [6]
+
+---
+
+# Relevant works
+
+- postage stamp recognition system [7]
+- DELF/DELG: CNN feature extractor [8]
+- HotSpotter: individual animal identification [9]
+- grocery store product recognition [10]
 
 ---
 
@@ -59,7 +68,7 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 
 - single domain/class with high variability
 - only one instance of each item present in the dataset
-- compare possible advantages of CNN approach on smaller scale datasets with high demand on time performance
+- compare possible advantages of CNN approach on smaller scale datasets with high demand on time and storage (model and feature representation) performance
 
 ---
 
@@ -103,4 +112,7 @@ Precision for recognition/retrieval
 [4] https://www.beer-coasters.eu/coasters/branik-10.jpg
 [5] https://g.denik.cz/54/45/20151127-pivo-tacek-osek_denik-galerie-800@2x.jpg
 [6] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7935507
-
+[7] https://www.diva-portal.org/smash/get/diva2:422669/FULLTEXT01.pdf
+[8] https://github.com/tensorflow/models/tree/master/research/delf
+[9] https://ieeexplore.ieee.org/abstract/document/6475023
+[10] https://dl.acm.org/doi/pdf/10.1145/3240508.3240522
