@@ -17,19 +17,23 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 
 # Requirements: from basic to nice to have
 
-- determining if a coaster in present in a dataset and retrieve the match
-- matching a coaster from a complex scene
+- determining if a coaster in present in a dataset and retrieve the match, otherwise add the coaster to the collection
+- matching a coaster from a complex scene (varied lighting and angles)
+- compare multiple approaches to this problem
+.
 - coaster recognition in a scene
 - transforming the marched coaster to a frontal view
+- retrieve relevant information (text, shape, maker...)
+.
 - generalize to other object domains
 - retrieval from video at framerate
 
 ---
 
-# Problem type
+# Problem task
 
-**instance recognition**: computer vision task of recognizing a specific instance of an object, rather than simply the category to which it belongs [1]
-**instance retrieval** finding images similar to a provided query from a large database [2]
+**instance recognition:** computer vision task of recognizing a specific instance of an object, rather than simply the category to which it belongs [1]
+**instance retrieval:** finding images similar to a provided query from a large database [2]
 
 **image classification**
 
@@ -52,6 +56,7 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 ---
 
 # Differences
+
 - single domain/class with high variability
 - only one instance of each item present in the dataset
 - compare possible advantages of CNN approach on smaller scale datasets with high demand on time performance
@@ -74,7 +79,7 @@ Precision for recognition/retrieval
 
 ---
 
-# Dataset
+# Datasets
 
 - website of a personal beer coaster collection: https://www.beer-coasters.eu/cz/pivni-tacky.html [3]
 ![width:200px](https://www.beer-coasters.eu/coasters/branik-10.jpg) [4]
@@ -83,6 +88,10 @@ Precision for recognition/retrieval
 ![width:200px](https://g.denik.cz/54/45/20151127-pivo-tacek-osek_denik-galerie-800@2x.jpg) [5]
 
 - manufactured dataset from printed paper coasters
+
+---
+
+# Thank you for your attention
 
 ---
 
