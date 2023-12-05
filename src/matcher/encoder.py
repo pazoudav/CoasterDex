@@ -28,11 +28,11 @@ class VLAD(Encoder):
         return self
     
     def save(self):
-        dump(self, 'src/matcher/VLAD.enc')
+        dump(self, 'matcher_files/VLAD.enc')
         return self
     
     def load(self):
-        self = load('src/matcher/VLAD.enc')
+        self = load('matcher_files/VLAD.enc')
         return self
         
     def encode(self, descriptors):
