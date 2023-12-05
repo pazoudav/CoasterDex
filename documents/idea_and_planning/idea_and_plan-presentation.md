@@ -105,6 +105,10 @@ recognition/retrieval: precision and recall, image representation and model size
 
 ---
 
+# Questions?
+
+---
+
 # Sources
 
 [1] https://blog.research.google/2020/09/advancing-instance-level-recognition.html
