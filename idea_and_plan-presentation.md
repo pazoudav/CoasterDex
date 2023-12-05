@@ -7,7 +7,7 @@ marp: true
 
 ---
 
-# motivation
+# Motivation
 
 My friend has a large collection of beer coasters (+200).
 When I'm in a pub and see a coaster, I don't know if they already have it or not. I could ask them but sometime they don't know either. I don't want to bring them duplicate coaster or bother them all the time (and its nice to surprise them with a new coasters).
@@ -15,70 +15,83 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 
 ---
 
-# problem statement
+# Requirements: from basic to nice to have
 
-**instance level recognition**: computer vision task of recognizing a specific instance of an object, rather than simply the category to which it belongs [1]
-
-**image level retrieval** finding images similar to a provided query from a large database [2]
-
----
-
-# requirements: from basic to nice to have
-
-- determining if a coaster in present in a database and retrieve the match
+- determining if a coaster in present in a dataset and retrieve the match
 - matching a coaster from a complex scene
 - coaster recognition in a scene
-- transforming the 'segmented' coaster to correct plane
+- transforming the marched coaster to a frontal view
 - generalize to other object domains
 - retrieval from video at framerate
 
 ---
 
-# differences
+# Problem type
+
+**instance recognition**: computer vision task of recognizing a specific instance of an object, rather than simply the category to which it belongs [1]
+**instance retrieval** finding images similar to a provided query from a large database [2]
+
+**image classification**
+
+---
+
+# Instance recognition/retrieval
+
+- **SIFT based**
+    - feature extractor (SIFT, SURF, ...)
+    - codebook training (feature clustering)
+    - feature encoding/quantization
+    - search (ANN, inverse table)
+
+- **CNN based**
+    - pertained CNN model -> feature vectors from layer
+    - model trained to crate a small feature vector
+
+[6]
+
+---
+
+# Differences
 - single domain/class with high variability
-- only one instance of each item present
+- only one instance of each item present in the dataset
+- compare possible advantages of CNN approach on smaller scale datasets with high demand on time performance
 
 ---
 
 # Methods 
 
-Some level of machine learning would be required to locate the object. We would like to avoid having it do the comparison due to the inherent need for dynamic collection management.
+Some level of machine learning (e.g. YOLO) would be required to locate the object. We would like to avoid having it do the comparison due to the inherent need for dynamic collection management.
 This makes it stand out 
 
 ---
 
-# performance
+# Performance
 
-We would like to minimize the time it takes for the person photographing the object to recieve a result. Object tracking time and image comparison time.
+We would like to minimize the time it takes for the person photographing the object to receive a result. 
+Object tracking time and image comparison time.
 
----
-
-# dataset
-
-website of a personal beer coaster collection: https://www.beer-coasters.eu/cz/pivni-tacky.html
-![width:200px](https://www.beer-coasters.eu/coasters/branik-10.jpg)
-
-collecting photo in real environment:
-![width:200px](https://g.denik.cz/54/45/20151127-pivo-tacek-osek_denik-galerie-800@2x.jpg)
-
-manufactured dataset from printed paper coasters
+Precision for recognition/retrieval
 
 ---
 
-# methods
+# Dataset
 
+- website of a personal beer coaster collection: https://www.beer-coasters.eu/cz/pivni-tacky.html [3]
+![width:200px](https://www.beer-coasters.eu/coasters/branik-10.jpg) [4]
 
+- collecting photo in real environment, for example:
+![width:200px](https://g.denik.cz/54/45/20151127-pivo-tacek-osek_denik-galerie-800@2x.jpg) [5]
+
+- manufactured dataset from printed paper coasters
 
 ---
 
-# performance measures
-
-
-
----
-
-# sources
+# Sources
 
 [1] https://blog.research.google/2020/09/advancing-instance-level-recognition.html
 [2] https://paperswithcode.com/task/image-retrieval
+[3] https://www.beer-coasters.eu/cz/pivni-tacky.html
+[4] https://www.beer-coasters.eu/coasters/branik-10.jpg
+[5] https://g.denik.cz/54/45/20151127-pivo-tacek-osek_denik-galerie-800@2x.jpg
+[6] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7935507
 
