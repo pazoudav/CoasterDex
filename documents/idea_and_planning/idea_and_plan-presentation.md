@@ -15,13 +15,13 @@ When I'm in a pub and see a coaster, I don't know if they already have it or not
 
 ---
 
-# Requirements: from basic to nice to have
+# Requirements
 
-- determining if a coaster in present in a dataset and retrieve the match, otherwise add the coaster to the collection
+- **determining if a coaster in present in a dataset and retrieve the match, otherwise add the coaster to the collection**
 - matching a coaster from a complex scene (varied lighting and angles)
 - compare multiple approaches to this problem
 .
-- coaster recognition in a scene
+- **coaster recognition in a scene**
 - transforming the marched coaster to a frontal view
 - retrieve relevant information (text, shape, maker...)
 .
@@ -84,7 +84,8 @@ This makes it stand out
 We would like to minimize the time it takes for the person photographing the object to receive a result. 
 Object tracking time and image comparison time.
 
-Precision for recognition/retrieval
+recognition/retrieval: precision and recall, image representation and model size for 
+
 
 ---
 
