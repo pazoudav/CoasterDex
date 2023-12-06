@@ -2,6 +2,7 @@ import cv2 as cv
 import argparse
 import numpy as np
 import time
+import threading
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
@@ -16,6 +17,8 @@ parser.add_argument('-no_find', action='store_true')
 
 font = cv.FONT_HERSHEY_SIMPLEX 
 now = time.time() 
+thread_start = now
+image = []
  
 def tick():
     global now
@@ -38,22 +41,38 @@ def get_source(args):
     return cap
  
  
+def matcher_thread():
+    global image
+    t = True
+    while t:
+        if len(image) > 0:
+            best_matches, distances = matcher.match(image) 
+            img = np.vstack(best_matches)
+            cv.putText(img, f'best match: {distances[0]:.2f}', (6,30), font, 0.6, (0,255,0), 2, cv.LINE_AA)
+            cv.imshow('matches', img)
+            if cv.waitKey(1) & 0xFF == ord('q'):
+                t = False 
+        time.sleep(1)
+ 
+ 
 def display_matches(matches, distances):
     if args.no_display:
         return
     img = np.vstack(matches)
-    cv.putText(img, f'best match: {distances[0]:.2f}', (8,30), font, 0.7, (0,255,0), 2, cv.LINE_AA)
+    cv.putText(img, f'best match: {distances[0]:.2f}', (6,30), font, 0.6, (0,255,0), 2, cv.LINE_AA)
     cv.imshow('matches', img)
- 
+
  
 def main_loop(matcher, finder):
+    global thread_start, image
     ret, img = cap.read()     
     bbox, best_matches = [], []
     if not args.no_find:
         bbox, = finder.find(img)         
-    if not args.no_match:
-        best_matches, distances = matcher.match(img, bbox=bbox) 
-        display_matches(best_matches, distances)
+    if not args.no_match and (thread_start + 1 < now):
+        thread_start += 1
+        image = img
+        
     
     if not args.no_display:
         add_fps(img)
@@ -62,7 +81,7 @@ def main_loop(matcher, finder):
     if cv.waitKey(1) & 0xFF == ord('q'):
         return False    
     return True
- 
+
 
 
  
@@ -73,9 +92,11 @@ if __name__ == '__main__':
     
     matcher = None if args.no_match else CoasterMatcher()
     finder = None if args.no_find else CoasterFinder()
-    
+    t1 = threading.Thread(target=matcher_thread)
+    t1.start()
     while main_loop(matcher, finder):
         ...
+    t1.join()
         
     cap.release()
     cv.destroyAllWindows()    
