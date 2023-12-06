@@ -24,4 +24,6 @@
 - holiday: https://www.kaggle.com/datasets/riteskkr/holiday/data
 
 
+## code
+- VLAD implementation: https://github.com/tim-hilt/vlad/tree/master
 

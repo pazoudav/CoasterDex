@@ -63,9 +63,15 @@ class CoasterMatcher:
         best_matches = []
         image = cv.resize(image, (640, 640))
         key_points, descriptors = self.featureExtractor.extract(image)
-        features = self.encoder.encode([descriptors])
-        idxs, dists = self.lookup.find(features, k=k)
-        idxs = idxs[0]
+        if descriptors is not None:
+            features = self.encoder.encode([descriptors])
+            idxs, dists = self.lookup.find(features, k=k)
+            idxs = idxs[0]
+        else:
+            # in case no features are extracted from the image
+            idxs = [0]*k
+            dists = [[1000.0]*k]
+            
         for idx in idxs:
             img_name = self.index[idx]
             img = cv.imread(f'{self.dataset}{img_name}.jpg')
