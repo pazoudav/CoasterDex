@@ -287,6 +287,7 @@ class VLAD:
         """
         vlads = []
         if self.verbose:
+            print('encoding descriptors')
             for x in pb.progressbar(X):
                 vlads.append(self._vlad(x))
         else:

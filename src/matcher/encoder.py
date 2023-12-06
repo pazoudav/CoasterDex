@@ -1,4 +1,4 @@
-from matcher.test_folder import VLAD as VLAD_
+from matcher.vlad import VLAD as VLAD_
 from joblib import dump, load
 
 class Encoder:
@@ -27,12 +27,13 @@ class VLAD(Encoder):
         self.codebook.fit(descriptors)
         return self
     
-    def save(self):
-        dump(self, 'matcher_files/VLAD.enc')
+    def save(self, name):
+        dump(self, f'matcher_files/{name}.enc')
         return self
     
-    def load(self):
-        self = load('matcher_files/VLAD.enc')
+    def load(self, name, verbose=False):
+        self = load(f'matcher_files/{name}.enc')
+        self.codebook.verbose = verbose
         return self
         
     def encode(self, descriptors):
