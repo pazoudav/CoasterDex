@@ -2,4 +2,4 @@ numpy
 opencv-python
 scikit-learn
 progressbar2
-
+pynndescent
