@@ -61,6 +61,7 @@ class CoasterMatcher:
         
     def match(self, image, k=3, **kwargs):
         best_matches = []
+        h,w,_ = image.shape
         image = cv.resize(image, (640, 640))
         key_points, descriptors = self.featureExtractor.extract(image)
         if descriptors is not None:
@@ -76,34 +77,15 @@ class CoasterMatcher:
             img_name = self.index[idx]
             img = cv.imread(f'{self.dataset}{img_name}.jpg')
             best_matches.append(cv.resize(img, (200, img.shape[0])))     
-        return best_matches, dists[0]
+        ret_dict = {'matches': best_matches,
+                    'distances': dists[0],
+                    'key points': key_points*(w/640, h/640)}
+        return ret_dict
     
     
     
 if __name__ == '__main__':
     # build_codebook_from_coco()
     # build_lookup_from_database('dataset/coaster-scans/')
-    matcher = CoasterMatcher().make_index()
-    matcher.save_index('basic')
-    exit(0)
-    print('matcher loaded')
-    img = cv.imread('dataset/coaster-photos/1.jpg')
-    matches, _ = matcher.match(img)
-    for image in matches:
-        cv.imshow('frame', image)
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            exit(0)
-        input()
-    # for ind in idxs:
-    #     for i in ind[:5]:
-    #         path = f'dataset/coaster-scans/{names[i]}.jpg'
-    #         image = cv.imread(path) 
-    #         cv.imshow('frame', image)
-    #         if cv.waitKey(1) & 0xFF == ord('q'):
-    #             exit(0)
-    #         input()
-    # cv.destroyAllWindows() 
-    
-# [  0,  46,   8,  98,  82,   3,  16, 106,  47,  11]
-    
+    ...
     

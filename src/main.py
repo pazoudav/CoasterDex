@@ -5,6 +5,7 @@ import time
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
+from displayHelpers import add_fps, display_matches, display_points
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--source', '-s', type=str, choices=['webcam', 'ip'], default='webcam', 
@@ -14,21 +15,7 @@ parser.add_argument('--no_display', action='store_true',
 parser.add_argument('-no_match', action='store_true')
 parser.add_argument('-no_find', action='store_true')
 
-font = cv.FONT_HERSHEY_SIMPLEX 
-now = time.time() 
- 
-def tick():
-    global now
-    delta = time.time() - now
-    now = time.time()
-    if delta <  0.001:
-        delta = 0.001
-    return delta
 
-def add_fps(img):
-    fps = 1/tick() # int(1/tick()) # 
-    cv.putText(img, f'{fps:.2f}', (10,30), font, 1, (0,0,255), 2, cv.LINE_AA)
-    return fps
  
 def get_source(args):
     if args.source == 'webcam':
@@ -38,12 +25,7 @@ def get_source(args):
     return cap
  
  
-def display_matches(matches, distances):
-    if args.no_display:
-        return
-    img = np.vstack(matches)
-    cv.putText(img, f'best match: {distances[0]:.2f}', (8,30), font, 0.7, (0,255,0), 2, cv.LINE_AA)
-    cv.imshow('matches', img)
+
  
  
 def main_loop(matcher, finder):
@@ -52,8 +34,10 @@ def main_loop(matcher, finder):
     if not args.no_find:
         bbox, = finder.find(img)         
     if not args.no_match:
-        best_matches, distances = matcher.match(img, bbox=bbox) 
-        display_matches(best_matches, distances)
+        matcher_data = matcher.match(img, bbox=bbox) 
+        if not args.no_display:
+            display_matches(matcher_data)
+            display_points(img, matcher_data['key points'])
     
     if not args.no_display:
         add_fps(img)
