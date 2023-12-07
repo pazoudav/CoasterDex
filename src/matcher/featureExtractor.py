@@ -1,5 +1,5 @@
 import cv2 as cv
-from matcher.vlad.utils import RootSIFT as rtsift
+import numpy  as np
 
 class FeaturesExtractor:
     def extract(self, image):
@@ -12,14 +12,34 @@ class SIFT(FeaturesExtractor):
         
     def extract(self, image):
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        key_points = self.sift.detect(gray, None)
         key_points, descriptors = self.sift.detectAndCompute(gray,None)
         key_points = cv.KeyPoint.convert(key_points)
         return key_points, descriptors
     
-class rootSIFT(SIFT):
+    
+class RootSIFT(SIFT):
     def extract(self, image):
-        key_points, descriptors =  super().encode(image)
-        return key_points, rtsift(descriptors)
+        key_points, descriptors =  super().extract(image)
+        # in case no key-points found:
+        if descriptors is None:
+            return key_points, descriptors
+        
+        descriptors = descriptors / descriptors.sum(axis=1, keepdims=True)
+        descriptors = np.sqrt(descriptors)
+        return key_points, descriptors
+
+
+class SURF(FeaturesExtractor):
+    def __init__(self, hess_threshold=400) -> None:
+        super().__init__()
+        self.hess_threshold = hess_threshold
+        self.surf = cv.xfeatures2d.SURF_create(hess_threshold)
+        self.surf.setExtended(True)  
+        
+    def extract(self, image):
+        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        key_points, descriptors = self.surf.detectAndCompute(gray, None)
+        key_points = cv.KeyPoint.convert(key_points)
+        return key_points, descriptors
 
 
