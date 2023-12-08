@@ -31,7 +31,9 @@ class ANNlookup(Lookup):
         
     def add_feature(self, feature):
         if self.index:
-            self.index.update([feature]) 
+            print('updating index')
+            self.index.update(feature) 
+            self.index.prepare()
         return self  
            
     def find(self, features, k=5):

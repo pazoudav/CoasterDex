@@ -14,19 +14,13 @@ def open_image(path: str):
     image = cv.imread(path)
     return image, name
 
-# def set_scans_to_200_width(folder):
-#     for file in folder_iterator(folder):
-#         image, name = open_image(file)
-#         # h, w, _ = image.shape
-#         # empty = np.zeros((h, 200, 3),dtype=int)
-#         # empty[:h,:w,:] = image
-#         # print(empty.shape)
-#         # print(empty)
-#         empty = cv.resize(image, (200, image.shape[0]))
-#         print(empty.shape)
-#         while True:
-#             cv.imshow('test', empty)
-#             if cv.waitKey(1) & 0xFF == ord('q'):
-#                 break
-        
-# set_scans_to_200_width('dataset/coaster-scans/')
+def resize_to_width(img, width):
+    shape = img.shape
+    if len(shape) == 2:
+        h,w = shape
+    elif len(shape) == 3:
+        h,w,_ = shape
+    ratio = width/w
+    height = int(ratio*h)
+    img = cv.resize(img, (width,height))
+    return img

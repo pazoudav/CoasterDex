@@ -11,8 +11,7 @@ class SIFT(FeaturesExtractor):
         self.sift : cv.SIFT = cv.SIFT_create()
         
     def extract(self, image):
-        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        key_points, descriptors = self.sift.detectAndCompute(gray,None)
+        key_points, descriptors = self.sift.detectAndCompute(image, None)
         key_points = cv.KeyPoint.convert(key_points)
         return key_points, descriptors
     
