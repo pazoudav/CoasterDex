@@ -55,5 +55,30 @@ def add_bounding_box(img, points):
     start_point, end_point = find_bounding_box(points)
     cv.rectangle(img, start_point, end_point, (0,0,255), 2)
     
-    
-    
+  
+def select_rectangle_wrapper(img, callback_func):
+    ix, iy = -1, -1 
+    def select_rectangle(event, x, y, flags, param):
+        global ix, iy
+        if event == cv.EVENT_LBUTTONDOWN:
+            ix = x
+            iy = y
+        elif event == cv.EVENT_LBUTTONUP:
+            bbox = ((ix, iy),(x, y))
+            callback_func(img, bbox, 'aaaa')
+            cv.destroyWindow('freeze_frame')
+            ix, iy = -1, -1 
+        elif event == cv.EVENT_MOUSEMOVE:
+            try:
+                if ix != -1:
+                    r_img = cv.rectangle(img.copy(), (ix,iy), (x,y), (0,255,0), 2)
+                    cv.imshow('freeze_frame', r_img)
+            except NameError:
+                ...
+    return select_rectangle
+
+
+def freeze_display(img, callback_func):
+    cv.namedWindow("freeze_frame")
+    cv.setMouseCallback("freeze_frame", select_rectangle_wrapper(img, callback_func))
+    cv.imshow('freeze_frame', img)

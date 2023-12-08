@@ -7,7 +7,7 @@ from joblib import load, dump
 import numpy as np
 from skimage.measure import ransac
 from skimage.transform import AffineTransform
-import random
+import time
 
 
 
@@ -118,8 +118,14 @@ class CoasterMatcher:
     def add_coaster(self, img, bbox, name):
         (x0,y0), (x1,y1) = bbox
         image = img[y0:y1,x0:x1]
-        cv.imwrite(f'dataset/coaster-scans/{name}.jpg', image)
-        resize_to_width(image, 200)
+        
+        # save thumbnail
+        small_img = resize_to_width(image.copy(), 200)
+        cv.imwrite(f'dataset/coaster-scans/{name}-{int(time.time())}.jpg', small_img)
+        
+        image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)    
+        image = self.clahe.apply(image)
+        image = resize_to_width(image, 200)
         key_points, descriptors = self.featureExtractor.extract(image)
         if descriptors is not None:
             features = self.encoder.encode([descriptors])
@@ -134,9 +140,3 @@ if __name__ == '__main__':
     # build_codebook_from_coco()
     # build_lookup_from_database('dataset/coaster-scans/')
     ...
-    matcher = CoasterMatcher()
-    image = cv.imread('dataset/coaster-photos/3.jpg')
-    matcher.add_coaster(image.copy(), ((100,800), (850,1500)), 'aaaa')
-    data = matcher.match(image)
-    for idx, img in enumerate(data['matches']):
-        cv.imwrite(f'test_{idx}.jpg', img)
