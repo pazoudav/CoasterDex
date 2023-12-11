@@ -75,6 +75,7 @@ def select_rectangle_wrapper(img, callback_func):
                     cv.imshow('freeze_frame', r_img)
             except NameError:
                 ...
+                
     return select_rectangle
 
 
