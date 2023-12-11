@@ -3,3 +3,7 @@ opencv-python
 scikit-learn
 progressbar2
 pynndescent
+Pillow
+keras
+scipy
+tqdm

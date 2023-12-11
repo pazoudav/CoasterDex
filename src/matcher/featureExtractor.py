@@ -1,5 +1,7 @@
 import cv2 as cv
 import numpy  as np
+from matcher.keras_rmac_plus.macImpl import MAC as MAC_
+from PIL import Image
 
 class FeaturesExtractor:
     def __init__(self) -> None:
@@ -34,5 +36,13 @@ class ORB(FeaturesExtractor):
         self.extractor = cv.ORB().create()
                             
 
-                            
+class MAC(FeaturesExtractor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.extractor = MAC_()
+        
+    def extract(self, image):
+        descriptors = self.extractor.extract_features(Image.fromarray(np.uint8(image)))                        
+        return (), descriptors
+  
 

@@ -1,11 +1,10 @@
 import cv2 as cv
 import argparse
 import numpy as np
-import time
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
-from displayHelpers import add_fps, display_matches, display_points, add_bounding_box, select_rectangle_wrapper, freeze_display
+from displayHelpers import add_fps, display_matcher_data, freeze_display
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--source', '-s', type=str, choices=['webcam', 'ip'], default='webcam', 
@@ -33,12 +32,7 @@ def main_loop(matcher, finder):
         bbox, = finder.find(img)         
     if not args.no_match:
         matcher_data = matcher.match(img, bbox=bbox) 
-        if not args.no_display:
-            if len(matcher_data['scan key points']) > 15:
-                display_matches(matcher_data)
-                add_bounding_box(img, matcher_data['matched key points'])
-            display_points(img, matcher_data['key points'])
-            display_points(img, matcher_data['matched key points'], color=(0,255,0))    
+        display_matcher_data(img, matcher_data, args)  
     
     if not args.no_display:
         add_fps(img)

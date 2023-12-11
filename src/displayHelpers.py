@@ -83,3 +83,13 @@ def freeze_display(img, callback_func):
     cv.namedWindow("freeze_frame")
     cv.setMouseCallback("freeze_frame", select_rectangle_wrapper(img, callback_func))
     cv.imshow('freeze_frame', img)
+
+
+def display_matcher_data(img, matcher_data, args):
+    if args.no_display:
+        return
+    if len(matcher_data['scan key points']) >= 16:
+        display_matches(matcher_data)
+        add_bounding_box(img, matcher_data['matched key points'])
+    display_points(img, matcher_data['key points'])
+    display_points(img, matcher_data['matched key points'], color=(0,255,0)) 
