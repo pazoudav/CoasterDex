@@ -4,6 +4,8 @@ import numpy as np
 
 def folder_iterator(folder):
     for file in os.listdir(folder):
+        if 'gitignore' in file:
+            continue
         f = os.path.join(folder, file)
         if os.path.isfile(f):
             yield f

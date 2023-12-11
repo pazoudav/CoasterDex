@@ -1,5 +1,6 @@
 from matcher.vlad import VLAD as VLAD_
 from joblib import dump, load
+import numpy as np
 
 class Encoder:
     def __init__(self) -> None:
@@ -13,7 +14,7 @@ class Encoder:
         return self
         
     def encode(self, descriptors):
-        ...
+        return np.array(descriptors)
 
     
     

@@ -1,6 +1,6 @@
 import cv2 as cv
 from matcher.encoder import Encoder, VLAD
-from matcher.featureExtractor import FeaturesExtractor, SIFT, RootSIFT, ORB
+from matcher.featureExtractor import FeaturesExtractor, SIFT, RootSIFT, ORB, MAC
 from matcher.lookup import Lookup, ANNlookup
 from matcher.helper import *
 from joblib import load, dump
@@ -42,7 +42,7 @@ def build_codebook_from_coco_and_scans():
         descriptors_.append(des)
     print('descriptors loaded')  
     
-    descriptors = random.sample(descriptors_,128)
+    descriptors = random.sample(descriptors_, 128)
     
     enc : VLAD = VLAD()
     enc.build_codebook(descriptors).save('VLAD-RootSIFT-mixed')
@@ -50,8 +50,8 @@ def build_codebook_from_coco_and_scans():
 
     
 def build_lookup_from_database(database):
-    fe = RootSIFT()
-    en = VLAD().load('VLAD-RootSIFT-mixed')
+    fe = MAC()
+    en = Encoder() # .load('VLAD-RootSIFT-mixed')
     lk = ANNlookup()
     descriptors = []
     for file in folder_iterator(database):
@@ -59,7 +59,7 @@ def build_lookup_from_database(database):
         _, des = fe.extract(image)
         descriptors.append(des)
     features = en.encode(descriptors)
-    lk.make(features).save('ANN-VLAD-RootSIFT-mixed')
+    lk.make(features).save('ANN-MAC')
     
 
 class CoasterMatcher:
@@ -107,11 +107,18 @@ class CoasterMatcher:
             
         # load best matches and resize to the same width
         for idx in idxs:
-            img_name = self.index[idx]
-            img = cv.imread(f'{self.dataset}{img_name}.jpg')
-            best_matches.append(img)     
-                
-        h_, w_ = image.shape
+            img_name = f'{self.dataset}{self.index[idx]}.jpg' 
+            if os.path.exists(img_name):
+                img = cv.imread(img_name)
+                best_matches.append(img)     
+          
+        if len(image.shape) == 2:      
+            h_, w_ = image.shape
+        elif len(image.shape) == 3:
+            h_, w_,_ = image.shape
+        else:
+            raise ValueError("wrong image dimensions")
+        
         key_points = key_points*[w/w_, h/h_] if len(key_points) > 0 else np.array(key_points) # scale to original size
         photo_key_points, scan_key_points = self.find_matching_points(best_matches[0], descriptors, key_points)        
         
@@ -125,6 +132,8 @@ class CoasterMatcher:
 
 
     def find_matching_points(self, img, img_descriptors, img_points):
+        if len(img_points) == 0:
+            return [], []
         best_key_points, best_descriptors = self.featureExtractor.extract(img)
         matches = cv.BFMatcher().knnMatch(img_descriptors, best_descriptors, k=2)
         good, good_ = set(), set()
@@ -132,7 +141,6 @@ class CoasterMatcher:
             if m.distance < 0.75*n.distance:
                 good.add(m.queryIdx)
                 good_.add(m.trainIdx)
-        # print(list(good), list(good_), type(img_points), type(best_key_points), img_points, best_key_points)
         return img_points[list(good)], best_key_points[list(good_)]
 
     
@@ -160,5 +168,10 @@ class CoasterMatcher:
     
     
 if __name__ == '__main__':
-    build_codebook_from_coco_and_scans()
+    # build_codebook_from_coco_and_scans()
     build_lookup_from_database('dataset/coaster-scans/')
+    # img = cv.imread('dataset/coaster-scans/beskydsky-pivovarek-6-small.jpg')  
+    # mac = MAC()
+    # k,d = mac.extract(img)
+    # print(d) 
+    ...
