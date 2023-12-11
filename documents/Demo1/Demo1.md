@@ -20,6 +20,19 @@ marp: true
 
 ---
 
+# Model training for coaster detection
+## Dataset
+- 179 Photos of 120 coasters, 5 empty photos
+![image info](./pictures/Dataset/website.png)
+![image info](./pictures/Dataset/dataset2.png)
+![image info](./pictures/Dataset/dataset3.png)
+---
+
+# Training results
+
+
+---
+
 # Moving forwards
 
 ---
