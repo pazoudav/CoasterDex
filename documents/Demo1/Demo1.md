@@ -29,7 +29,7 @@ marp: true
 ---
 
 # Training results
-
+![image info](./pictures/Training_graph.png)
 
 ---
 
