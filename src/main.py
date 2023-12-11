@@ -8,20 +8,26 @@ from coasterMatcher import CoasterMatcher
 from displayHelpers import add_fps, display_matches, display_points, add_bounding_box
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--source', '-s', type=str, choices=['webcam', 'ip'], default='webcam', 
+parser.add_argument('--source', '-s', type=str, default='webcam', 
                         help='select the source device')
 parser.add_argument('--no_display', action='store_true', 
                         help='turn of display window')
 parser.add_argument('-no_match', action='store_true')
 parser.add_argument('-no_find', action='store_true')
 
-
+class Img:
+    def __init__(self, path):
+        self.img = cv.imread(path)
+    def read(self):
+        return True, self.img.copy()
  
 def get_source(args):
     if args.source == 'webcam':
         cap = cv.VideoCapture(0)
     elif args.source == 'ip':
         cap = cv.VideoCapture('https://192.168.1.4:8080/video')
+    else:
+        cap = Img(args.source)
     return cap
 
 

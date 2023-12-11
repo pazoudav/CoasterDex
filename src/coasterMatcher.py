@@ -5,8 +5,6 @@ from matcher.lookup import Lookup, ANNlookup
 from matcher.helper import *
 from joblib import load, dump
 import numpy as np
-from skimage.measure import ransac
-from skimage.transform import AffineTransform
 import random
 
 
