@@ -1,17 +1,18 @@
 import cv2 as cv
 from matcher.encoder import Encoder, VLAD
-from matcher.featureExtractor import FeaturesExtractor, SIFT, RootSIFT, SURF
+from matcher.featureExtractor import FeaturesExtractor, SIFT, RootSIFT, ORB
 from matcher.lookup import Lookup, ANNlookup
 from matcher.helper import *
 from joblib import load, dump
 import numpy as np
+import time
 import random
 
 
 
     
 def build_codebook_from_coco():
-    fe = SURF()
+    fe = RootSIFT()
     descriptors = []
     
     print('loading descriptors from coco128')
@@ -25,10 +26,32 @@ def build_codebook_from_coco():
     enc.build_codebook(descriptors).save('VLAD-SURF')
     print('codebook build')   
     
+
+def build_codebook_from_coco_and_scans():
+    fe = RootSIFT()
+    descriptors_ = []
+    
+    print('loading descriptors from coco128 and scans')
+    for file in folder_iterator('dataset/coco128'):
+        image, _ = open_image(file)
+        _, des = fe.extract(image)
+        descriptors_.append(des)
+    for file in folder_iterator('dataset/coaster-scans'):
+        image, _ = open_image(file)
+        _, des = fe.extract(image)
+        descriptors_.append(des)
+    print('descriptors loaded')  
+    
+    descriptors = random.sample(descriptors_,128)
+    
+    enc : VLAD = VLAD()
+    enc.build_codebook(descriptors).save('VLAD-RootSIFT-mixed')
+    print('codebook build')  
+
     
 def build_lookup_from_database(database):
-    fe = SURF()
-    en = VLAD().load('VLAD-SURF')
+    fe = RootSIFT()
+    en = VLAD().load('VLAD-RootSIFT-mixed')
     lk = ANNlookup()
     descriptors = []
     for file in folder_iterator(database):
@@ -36,7 +59,7 @@ def build_lookup_from_database(database):
         _, des = fe.extract(image)
         descriptors.append(des)
     features = en.encode(descriptors)
-    lk.make(features).save('ANN-VLAD-SURF')
+    lk.make(features).save('ANN-VLAD-RootSIFT-mixed')
     
 
 class CoasterMatcher:
@@ -89,7 +112,7 @@ class CoasterMatcher:
             best_matches.append(img)     
                 
         h_, w_ = image.shape
-        key_points = key_points*[w/w_, h/h_] if len(key_points) > 0 else key_points # scale to original size
+        key_points = key_points*[w/w_, h/h_] if len(key_points) > 0 else np.array(key_points) # scale to original size
         photo_key_points, scan_key_points = self.find_matching_points(best_matches[0], descriptors, key_points)        
         
         ret_dict = {'matches': best_matches,
@@ -109,6 +132,7 @@ class CoasterMatcher:
             if m.distance < 0.75*n.distance:
                 good.add(m.queryIdx)
                 good_.add(m.trainIdx)
+        # print(list(good), list(good_), type(img_points), type(best_key_points), img_points, best_key_points)
         return img_points[list(good)], best_key_points[list(good_)]
 
     
@@ -116,8 +140,15 @@ class CoasterMatcher:
     def add_coaster(self, img, bbox, name):
         (x0,y0), (x1,y1) = bbox
         image = img[y0:y1,x0:x1]
-        cv.imwrite(f'dataset/coaster-scans/{name}.jpg', image)
-        resize_to_width(image, 200)
+        
+        # save thumbnail
+        small_img = resize_to_width(image.copy(), 200)
+        name = f'{name}-{int(time.time())}' # adding time tag to prevent name collisions
+        cv.imwrite(f'dataset/coaster-scans/{name}.jpg', small_img)
+        
+        image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)    
+        image = self.clahe.apply(image)
+        image = resize_to_width(image, 200)
         key_points, descriptors = self.featureExtractor.extract(image)
         if descriptors is not None:
             features = self.encoder.encode([descriptors])
@@ -129,12 +160,5 @@ class CoasterMatcher:
     
     
 if __name__ == '__main__':
-    # build_codebook_from_coco()
-    # build_lookup_from_database('dataset/coaster-scans/')
-    ...
-    matcher = CoasterMatcher()
-    image = cv.imread('dataset/coaster-photos/3.jpg')
-    matcher.add_coaster(image.copy(), ((100,800), (850,1500)), 'aaaa')
-    data = matcher.match(image)
-    for idx, img in enumerate(data['matches']):
-        cv.imwrite(f'test_{idx}.jpg', img)
+    build_codebook_from_coco_and_scans()
+    build_lookup_from_database('dataset/coaster-scans/')

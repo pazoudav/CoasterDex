@@ -2,18 +2,18 @@ import cv2 as cv
 import numpy  as np
 
 class FeaturesExtractor:
+    def __init__(self) -> None:
+        self.extractor = ...
+        
     def extract(self, image):
-        return [], []
+        key_points, descriptors = self.extractor.detectAndCompute(image, None)
+        key_points = cv.KeyPoint.convert(key_points)
+        return key_points, descriptors
 
 class SIFT(FeaturesExtractor):
     def __init__(self) -> None:
         super().__init__()
-        self.sift : cv.SIFT = cv.SIFT_create()
-        
-    def extract(self, image):
-        key_points, descriptors = self.sift.detectAndCompute(image, None)
-        key_points = cv.KeyPoint.convert(key_points)
-        return key_points, descriptors
+        self.extractor : cv.SIFT = cv.SIFT_create()
     
     
 class RootSIFT(SIFT):
@@ -28,17 +28,11 @@ class RootSIFT(SIFT):
         return key_points, descriptors
 
 
-class SURF(FeaturesExtractor):
-    def __init__(self, hess_threshold=400) -> None:
+class ORB(FeaturesExtractor):
+    def __init__(self) -> None:
         super().__init__()
-        self.hess_threshold = hess_threshold
-        self.surf = cv.xfeatures2d.SURF_create(hess_threshold)
-        self.surf.setExtended(True)  
-        
-    def extract(self, image):
-        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        key_points, descriptors = self.surf.detectAndCompute(gray, None)
-        key_points = cv.KeyPoint.convert(key_points)
-        return key_points, descriptors
+        self.extractor = cv.ORB().create()
+                            
 
+                            
 
