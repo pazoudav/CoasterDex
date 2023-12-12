@@ -1,7 +1,7 @@
 import cv2 as cv
 from matcher.encoder import Encoder, VLAD
 from matcher.featureExtractor import FeaturesExtractor, SIFT, RootSIFT, ORB, MAC
-from matcher.lookup import Lookup, ANNlookup
+from matcher.lookup import Lookup, ANNlookup, KDTree, BallTree, ProductQuantization, LocallySensitiveHashing
 from matcher.helper import *
 from joblib import load, dump
 import numpy as np
@@ -50,23 +50,23 @@ def build_codebook_from_coco_and_scans():
 
     
 def build_lookup_from_database(database):
-    fe = MAC()
-    en = Encoder() # .load('VLAD-RootSIFT-mixed')
-    lk = ANNlookup()
+    fe = RootSIFT()
+    en = VLAD().load('VLAD-RootSIFT')
+    lk = LocallySensitiveHashing()
     descriptors = []
     for file in folder_iterator(database):
         image, name = open_image(file)
         _, des = fe.extract(image)
         descriptors.append(des)
     features = en.encode(descriptors)
-    lk.make(features).save('ANN-MAC')
+    lk.make(features).save('LSH-VLAD-RootSIFT')
     
 
 class CoasterMatcher:
     def __init__(self, dataset='dataset/coaster-scans/'):
         self.featureExtractor : FeaturesExtractor = RootSIFT()
         self.encoder : Encoder = VLAD().load('VLAD-RootSIFT')
-        self.lookup : Lookup = ANNlookup().load('ANN-VLAD-RootSIFT')
+        self.lookup : Lookup = BallTree().load('BallTree-VLAD-RootSIFT')
         self.index = {}
         self.dataset = dataset
         self.clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
@@ -93,6 +93,7 @@ class CoasterMatcher:
         
     def match(self, image, k=5, **kwargs):
         best_matches = []
+        photo_key_points, scan_key_points = [], []
         h,w,_= image.shape
         image = self.preprocess(image)
         key_points, descriptors = self.featureExtractor.extract(image)
@@ -113,14 +114,15 @@ class CoasterMatcher:
                 best_matches.append(img)     
           
         if len(image.shape) == 2:      
-            h_, w_ = image.shape
+            h_,w_ = image.shape
         elif len(image.shape) == 3:
-            h_, w_,_ = image.shape
+            h_,w_,_ = image.shape
         else:
             raise ValueError("wrong image dimensions")
         
         key_points = key_points*[w/w_, h/h_] if len(key_points) > 0 else np.array(key_points) # scale to original size
-        photo_key_points, scan_key_points = self.find_matching_points(best_matches[0], descriptors, key_points)        
+        if len(best_matches) > 0:
+            photo_key_points, scan_key_points = self.find_matching_points(best_matches[0], descriptors, key_points) 
         
         ret_dict = {'matches': best_matches,
                     'distances': dists[0],
@@ -169,5 +171,5 @@ class CoasterMatcher:
     
 if __name__ == '__main__':
     # build_codebook_from_coco_and_scans()
-    # build_lookup_from_database('dataset/coaster-scans/')
+    build_lookup_from_database('dataset/coaster-scans/')
     ...

@@ -31,7 +31,7 @@ def main_loop(matcher, finder):
     if not args.no_find:
         bbox, = finder.find(img)         
     if not args.no_match:
-        matcher_data = matcher.match(img, bbox=bbox) 
+        matcher_data = matcher.match(img, bbox=bbox, k=3) 
         display_matcher_data(img, matcher_data, args)  
     
     if not args.no_display:
