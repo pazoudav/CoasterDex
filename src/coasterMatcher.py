@@ -169,9 +169,5 @@ class CoasterMatcher:
     
 if __name__ == '__main__':
     # build_codebook_from_coco_and_scans()
-    build_lookup_from_database('dataset/coaster-scans/')
-    # img = cv.imread('dataset/coaster-scans/beskydsky-pivovarek-6-small.jpg')  
-    # mac = MAC()
-    # k,d = mac.extract(img)
-    # print(d) 
+    # build_lookup_from_database('dataset/coaster-scans/')
     ...

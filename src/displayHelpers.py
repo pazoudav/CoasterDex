@@ -6,6 +6,14 @@ from matcher.helper import resize_to_width
 font = cv.FONT_HERSHEY_SIMPLEX 
 now = time.time() 
  
+# helper class for image input
+class ImageInput:
+    def __init__(self, path):
+        self.img = cv.imread(path)
+    def read(self):
+        return True, self.img.copy()
+ 
+ 
 def tick():
     global now
     delta = time.time() - now

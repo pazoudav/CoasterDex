@@ -1,4 +1,4 @@
-# 
+# Project Demo 1
 
 This is the 2nd of three presentations of your project.  Your presentation should include:
 
