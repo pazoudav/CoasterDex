@@ -7,12 +7,6 @@ marp: true
 
 ---
 
-# Points
-
-- project Evaluation
-- Project status with respect to min and max goals.
-- Elaboration of background materials: papers/existing systems, software, and data sets.
----
 
 # Instance recognition 
 - instance recognition overviews [1], [2]
@@ -22,36 +16,23 @@ marp: true
     - **coco** and coco/coaster codebooks
     - **basic** and RANSAC-geometric key-point matching
     - updating database
-- performance measures: 
 
 ---
 
-# Status 
+# Coaster detection 
 
 - Working detection model but code is broken'
 - Mostly accurate feature matching, needs bounding box implementation
 - Homogenous transformation of detected coaster for angle correction most likely unnecessary
 
----
 
-# Work involved
-
-- Feature matching for instance level recognition
-- Handled by David
-- Model training for coaster detection
-- Handled by Dagur Elinór Kristinsson
-- Custom dataset creation
-- Model training environment errors took time to resolve
-- Integration of existing code
-<!-- - individual coaster **instance** recognition and coaster **class** classification -->
 
 ---
 
 # Model training for coaster detection
 ## Dataset
 - 179 Photos of 120 coasters, 5 empty photos
-![image](./pictures/Dataset/website.png) | ![image](./pictures/Dataset/dataset2.png)
-![image](./pictures/Dataset/dataset3.png)
+![width:300px](./pictures/Dataset/website.png) ![width:150px](./pictures/Dataset/dataset2.jpg) ![width:150px](./pictures/Dataset/dataset3.jpg)
 ---
 
 # Training results
@@ -60,26 +41,35 @@ marp: true
 ------
 
 # Model inference test
-![image](./pictures/Infertest/images1.jpg) ![image](./pictures/Infertest/images2.jpg)![image](./pictures/Infertest/images3.jpg)![image](./pictures/Infertest/images4.jpg) ![image](./pictures/Infertest/testimg1.jpg) ![image](./pictures/nfertest/testimg2.jpg)![image](./pictures/Infertest/testimg3.jpg)![image](./pictures/Infertest/testimg4.jpg)![image](./ictures/Infertest/testimg5.jpg)![image](./pictures/Infertest/testimg6.jpg)![image](./pictures/Infertest/testimg7.jpg)![image](./pictures/Infertest/testimg8.jpg)![image](./pictures/Infertest/testimg9.jpg)
+![image](./pictures/Infertest/images1.jpg) ![image](./pictures/Infertest/images2.jpg)![image](./pictures/Infertest/images3.jpg)![image](./pictures/Infertest/images4.jpg) ![image](./pictures/Infertest/testimg1.jpg)![image](./pictures/Infertest/testimg3.jpg)![image](./pictures/Infertest/testimg4.jpg) ![image](./pictures/Infertest/testimg6.jpg)![image](./pictures/Infertest/testimg7.jpg)![image](./pictures/Infertest/testimg8.jpg)![image](./pictures/Infertest/testimg9.jpg)
 
 ---
 
 # Inference test results
-![image](./pictures/TestDetections/images1.jpg) ![image](./pictures/TestDetections/images2.jpg) ![image](./pictures/TestDetections/images3.jpg) ![image](./pictures/TestDetections/images4.jpg) ![image](./pictures/TestDetections/testimg1.jpg) ![image](./pictures/TestDetections/testimg2.jpg) ![image](./pictures/TestDetections/testimg3.jpg) ![image](./pictures/TestDetections/testimg4.jpg) ![image](./pictures/TestDetections/testimg5.jpg) ![image](./pictures/TestDetections/testimg6.jpg) ![image](./pictures/TestDetections/testimg7.jpg) ![image](./pictures/TestDetections/testimg8.jpg) ![image](./pictures/TestDetections/testimg9.jpg) 
+![width:200px](./pictures/TestDetections/images1.jpg) ![width:300px](./pictures/TestDetections/images2.jpg) ![image](./pictures/TestDetections/images3.jpg) ![image](./pictures/TestDetections/images4.jpg) ![width:100px](./pictures/TestDetections/testimg1.jpg) ! ![width:100px](./pictures/TestDetections/testimg3.jpg) ![width:100px](./pictures/TestDetections/testimg4.jpg) ![width:100px](./pictures/TestDetections/testimg5.jpg)  ![width:100px](./pictures/TestDetections/testimg8.jpg) ![width:100px](./pictures/TestDetections/testimg9.jpg) 
+![width:400px](./pictures/TestDetections/testimg7.jpg)![width:400px](./pictures/TestDetections/testimg6.jpg) 
 
+---
+
+# Work involved
+
+- Feature matching for instance level recognition
+- Integration of existing code
+- Model training for coaster detection
+- Custom dataset creation
+- Model training environment errors took time to resolve
+
+<!-- - individual coaster **instance** recognition and coaster **class** classification -->
 
 ---
 
 # Moving forwards
 - Combine modules for full functionality
 - Speed optimizations
-
 - Final goal is quick and accurate matching from various coaster types
-
-- integration between our systems
-- color dependant features/recognition
-- different search for faster coaster addition
-- async call implementation 
+- Color dependant features/recognition
+- Different search for faster coaster addition
+- Async call implementation 
 
 ---
 
