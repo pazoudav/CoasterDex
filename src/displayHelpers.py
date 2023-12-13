@@ -102,28 +102,12 @@ def display_matcher_data(img, matcher_data, args, offset=(0,0), name='0'):
 	if len(matcher_data['scan key points']) >= 16:
 		display_matches(matcher_data, args, name=name)
 		if 'm_bbox' in args.display:
-			add_bounding_box(img, matcher_data['matched key points']+offset)
+			add_bounding_box(img, matcher_data['matched key points'])
 	if 'm_kp' in args.display:
-		display_points(img, matcher_data['key points']+offset)
+		display_points(img, matcher_data['key points'])
 	if 'm_mkp' in args.display:
-		display_points(img, matcher_data['matched key points']+offset, color=(0,255,0)) 
+		display_points(img, matcher_data['matched key points'], color=(0,255,0)) 
    
-def get_img_shape(img):
-	if len(img.shape) == 2:
-		h,w = img.shape
-	elif len(img.shape) == 3:
-		h,w,_ = img.shape
-	return w, h
-	
-def extract_img(img, bbox):
-	w,h = get_img_shape(img)
-	(x0,y0),(x1,y1) = bbox
-	x0 = max(0,x0)
-	y0 = max(0,y0)
-	x1 = min(w,x1)
-	y1 = min(h,y1)
-	img_ = img[y0:y1, x0:x1]
-	return img_, x0, y0
 	
 def display_bboxs(img, bboxs, args):
 	if 'f_bbox' in args.display:

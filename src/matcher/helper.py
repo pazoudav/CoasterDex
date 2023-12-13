@@ -26,3 +26,20 @@ def resize_to_width(img, width):
     height = int(ratio*h)
     img = cv.resize(img, (width,height))
     return img
+
+def get_img_shape(img):
+	if len(img.shape) == 2:
+		h,w = img.shape
+	elif len(img.shape) == 3:
+		h,w,_ = img.shape
+	return w, h
+	
+def extract_img(img, bbox):
+	w,h = get_img_shape(img)
+	(x0,y0),(x1,y1) = bbox
+	x0 = max(0,x0)
+	y0 = max(0,y0)
+	x1 = min(w,x1)
+	y1 = min(h,y1)
+	img_ = img[y0:y1, x0:x1]
+	return img_, x0, y0

@@ -4,7 +4,7 @@ import numpy as np
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
-from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput, extract_img, display_bboxs
+from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput, display_bboxs
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--source', '-s', type=str, default='webcam', 
@@ -33,13 +33,9 @@ def main_loop(matcher, finder):
         bboxs, = finder.find(org_img)  
         display_bboxs(img, bboxs, args)
     if not args.no_match:
-        for idx, bbox in enumerate(bboxs):
-            img_, x0,y0 = extract_img(org_img, bbox)
-            matcher_data = matcher.match(img_, k=3) 
-            display_matcher_data(img, matcher_data, args, offset=(x0,y0), name=str(idx)) 
-        if len(bboxs) == 0:
-            matcher_data = matcher.match(org_img, k=3) 
-            display_matcher_data(img, matcher_data, args)  
+        matcher_data =  matcher.match_wrap(org_img, bboxs=bboxs, k=3)
+        display_matcher_data(img, matcher_data, args) 
+
     
     if not args.no_display:
         add_fps(img)

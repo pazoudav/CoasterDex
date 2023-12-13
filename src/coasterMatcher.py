@@ -88,16 +88,41 @@ class CoasterMatcher:
     def preprocess(self, img):
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)    
         img = self.clahe.apply(img)
-        img = resize_to_width(img, 640)
+        w,h = get_img_shape(img)
+        if w > 640:
+            img = resize_to_width(img, 640)
         return img
         
     def match_wrap(self, image, bboxs, k=5, **kwargs):
-        ...    
-    
+        if len(bboxs) == 0:
+            matcher_data = self.match(image, k=3) 
+            return matcher_data
+        
+        matcher_data = {'matches': [],
+                        'distances': [],
+                        'key points': [],
+                        'matched key points': [],
+                        'scan key points': []
+                        }
+        for bbox in bboxs:
+            img_, x0,y0 = extract_img(image, bbox)
+            w,h = get_img_shape(img_)
+            new_w = max(w,h)
+            new_h = new_w
+            img_ = cv.resize(img_, (new_w, new_h))
+            matcher_data = self.match(img_, k=1) 
+            matcher_data['key points'] = self.resize_keypoints(matcher_data['key points'], w,h, new_w, new_h)
+            matcher_data['matched key points'] = self.resize_keypoints(matcher_data['matched key points'], w,h, new_w, new_h)
+            matcher_data['key points'] = matcher_data['key points'] + (x0,y0) if len(matcher_data['key points']) > 0 else matcher_data['key points']
+            matcher_data['matched key points'] = matcher_data['matched key points'] + (x0,y0) if len(matcher_data['matched key points']) > 0 else matcher_data['matched key points']
+        return matcher_data
+        
+        
+        
     def match(self, image, k=5, **kwargs):
         best_matches = []
         photo_key_points, scan_key_points = [], []
-        h,w,_= image.shape
+        w,h = get_img_shape(image)
         image = self.preprocess(image)
         key_points, descriptors = self.featureExtractor.extract(image)
         if descriptors is not None:
@@ -116,14 +141,8 @@ class CoasterMatcher:
                 img = cv.imread(img_name)
                 best_matches.append(img)     
           
-        if len(image.shape) == 2:      
-            h_,w_ = image.shape
-        elif len(image.shape) == 3:
-            h_,w_,_ = image.shape
-        else:
-            raise ValueError("wrong image dimensions")
-        
-        key_points = key_points*[w/w_, h/h_] if len(key_points) > 0 else np.array(key_points) # scale to original size
+        w_,h_ = get_img_shape(image)
+        key_points = self.resize_keypoints(key_points, w,h,w_,h_)
         if len(best_matches) > 0:
             photo_key_points, scan_key_points = self.find_matching_points(best_matches[0], descriptors, key_points) 
         
@@ -149,6 +168,9 @@ class CoasterMatcher:
         return img_points[list(good)], best_key_points[list(good_)]
 
     
+    def resize_keypoints(self, key_points, old_w, old_h, new_w, new_h):
+        key_points = key_points*[old_w/new_w, old_h/new_h] if len(key_points) > 0 else np.array(key_points) # scale to original size
+        return key_points
     
     def add_coaster(self, img, bbox, name):
         (x0,y0), (x1,y1) = bbox
