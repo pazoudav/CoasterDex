@@ -126,8 +126,8 @@ def post_process(input_image, outputs):
         top = box[1]
         width = box[2]
         height = box[3]
-        #p1, p2, p3, p4 = (left,top),(left + width, top), (left, top + height), (left + width, top + height)
-        #bboxes.append([left,top])
+        p1, p2, p3, p4 = (left,top),(left + width, top), (left, top + height), (left + width, top + height)
+        bboxes.append([p1,p4])
         cv.rectangle(input_image, (left, top), (left + width, top + height), BLUE, 3*THICKNESS)
         label = "{}:{:.2f}".format(classes[class_ids[i]], confidences[i])
         draw_label(input_image, label, left, top)
@@ -139,7 +139,8 @@ def compress(img):
     width = 640
     height = 360
     resized = cv.resize(img,(width,height))
-    return resized
+
+    return img
 
 
 
