@@ -4,7 +4,6 @@ import numpy as np
 import time
 
 from coasterFinder import CoasterFinder
-# from matcher.coasterMatcher import CoasterMatcher
 from matcher.matcherClient import MatcherClient
 from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput
 
@@ -35,8 +34,6 @@ def main_loop(matcher, finder):
     if not args.no_match:
         matcher_data = matcher.match(img, bbox=bbox, k=3) 
         display_matcher_data(img, matcher_data, args)  
-        for i in range(2**14):
-            print(i)
     
     if not args.no_display:
         add_fps(img)

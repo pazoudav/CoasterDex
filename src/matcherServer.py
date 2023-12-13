@@ -15,12 +15,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print(f"Connected by {addr}")
         while True:
-            print('receiving')
+            # print('receiving')
             data = receive_data(conn)
-            print('matching')
+            # print('matching')
             data = matcher.match(data, k=3)
-            print('sending')
+            # print('sending')
             send_data(conn, data)
-            # conn, addr = s.accept()
-            print('done')
+            # print('done')
             

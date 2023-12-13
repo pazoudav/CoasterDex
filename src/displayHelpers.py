@@ -5,6 +5,13 @@ from matcher.helper import resize_to_width
 
 font = cv.FONT_HERSHEY_SIMPLEX 
 now = time.time() 
+
+old_matcher_data = {'matches': [],
+                    'distances': [],
+                    'key points': [],
+                    'matched key points': [],
+                    'scan key points': []
+                    }
  
 # helper class for image input
 class ImageInput:
@@ -96,8 +103,13 @@ def freeze_display(img, callback_func):
 
 
 def display_matcher_data(img, matcher_data, args):
+    global old_matcher_data
     if args.no_display:
         return
+    if matcher_data is None:
+        matcher_data = old_matcher_data
+    else:
+        old_matcher_data = matcher_data
     if len(matcher_data['scan key points']) >= 16:
         display_matches(matcher_data)
         add_bounding_box(img, matcher_data['matched key points'])

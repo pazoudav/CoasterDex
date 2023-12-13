@@ -8,8 +8,9 @@ PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 SIZE = 2**20
 
 def receive_data(s: socket.socket):
-    print('waiting for request -', int(time.time()))
-    info = s.recv(SIZE).decode()
+    # print('waiting for request -', int(time.time()))
+    info = s.recv(6)
+    info = info.decode()
     if len(info) < 1:
         exit(0)
     info = int(info)
@@ -23,5 +24,7 @@ def receive_data(s: socket.socket):
 
 def send_data(s : socket.socket, data):
     data = dumps(data)
-    s.send(f'{len(data)}'.encode())
+    info = f'{len(data)}'.encode()
+    # print('sending:', len(info), len(data))
+    s.send(info)
     s.sendall(data)
