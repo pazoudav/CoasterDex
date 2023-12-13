@@ -4,7 +4,7 @@ import numpy as np
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
-from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput
+from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput, extract_img, display_bboxs
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--source', '-s', type=str, default='webcam', 
@@ -13,6 +13,7 @@ parser.add_argument('--no_display', action='store_true',
                         help='turn of display window')
 parser.add_argument('-no_match', action='store_true')
 parser.add_argument('-no_find', action='store_true')
+parser.add_argument('--display', '-d', nargs='+', type=str, choices=['f_bbox', 'm_bbox', 'm_kp', 'm_mkp'], default=[])
  
 def get_source(args):
     if args.source == 'webcam':
@@ -27,12 +28,18 @@ def get_source(args):
 def main_loop(matcher, finder):
     ret, img = cap.read()     
     org_img = img.copy()
-    bbox, best_matches = [], []
+    bboxs, best_matches = [], []
     if not args.no_find:
-        bbox, = finder.find(img)         
+        bboxs, = finder.find(org_img)  
+        display_bboxs(img, bboxs, args)
     if not args.no_match:
-        matcher_data = matcher.match(img, bbox=bbox, k=3) 
-        display_matcher_data(img, matcher_data, args)  
+        for idx, bbox in enumerate(bboxs):
+            img_, x0,y0 = extract_img(org_img, bbox)
+            matcher_data = matcher.match(img_, k=3) 
+            display_matcher_data(img, matcher_data, args, offset=(x0,y0), name=str(idx)) 
+        if len(bboxs) == 0:
+            matcher_data = matcher.match(org_img, k=3) 
+            display_matcher_data(img, matcher_data, args)  
     
     if not args.no_display:
         add_fps(img)

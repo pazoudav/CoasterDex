@@ -91,6 +91,9 @@ class CoasterMatcher:
         img = resize_to_width(img, 640)
         return img
         
+    def match_wrap(self, image, bboxs, k=5, **kwargs):
+        ...    
+    
     def match(self, image, k=5, **kwargs):
         best_matches = []
         photo_key_points, scan_key_points = [], []

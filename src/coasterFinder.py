@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import os
 
 # Constants.
 INPUT_WIDTH = 640
@@ -25,7 +26,10 @@ class CoasterFinder:
     """ Returns bounding boxes of coasters in image in an array where bounding box has 2 points, tuples, p1 and p4, right upper corner and lower left corner respectively """
 
     def __init__(self,path=None):
-        modelWeights = "coasterDetect.onnx"
+        if os.path.exists("src/coasterDetect.onnx"):
+            modelWeights = "src/coasterDetect.onnx"
+        elif os.path.exists("coasterDetect.onnx"):
+            modelWeights = "coasterDetect.onnx"
         self.net = cv.dnn.readNet(modelWeights)
 
     def find(self, img, **kwargs):
