@@ -22,6 +22,7 @@ RED = (0,0,255)
 classes = ['Coaster'] # detection classes
 
 class CoasterFinder:
+    """ Returns bounding boxes of coasters in image in an array where bounding box has 2 points, tuples, p1 and p4, right upper corner and lower left corner respectively """
 
     def __init__(self,path=None):
         modelWeights = "coasterDetect.onnx"
