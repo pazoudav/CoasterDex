@@ -7,3 +7,5 @@ Pillow
 keras
 scipy
 tqdm
+nanopq
+nearpy

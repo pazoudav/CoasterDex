@@ -6,6 +6,14 @@ from matcher.helper import resize_to_width
 font = cv.FONT_HERSHEY_SIMPLEX 
 now = time.time() 
  
+# helper class for image input
+class ImageInput:
+    def __init__(self, path):
+        self.img = cv.imread(path)
+    def read(self):
+        return True, self.img.copy()
+ 
+ 
 def tick():
     global now
     delta = time.time() - now
@@ -20,12 +28,14 @@ def add_fps(img):
     return fps
 
 def display_matches(matcher_data : dict, k=3):
-    for idx, image in enumerate(matcher_data['matches'][:k]):
-        matcher_data['matches'][idx] = resize_to_width(image, 200)
-    img = np.vstack(matcher_data['matches'][:k])
-    display_points(img, matcher_data['scan key points'], size=4, color=(0,255,0))
-    cv.putText(img, f"# of kp: {len(matcher_data['scan key points'])}/{len(matcher_data['matched key points'])}/{len(matcher_data['key points'])}", (5,30), font, 0.5, (0,255,0), 1, cv.LINE_AA)
-    cv.imshow('matches', img)
+	n = min(k, len(matcher_data['matches']))
+	for idx, image in enumerate(matcher_data['matches'][:n]):
+		matcher_data['matches'][idx] = resize_to_width(image, 200)
+	if n > 0:
+		img = np.vstack(matcher_data['matches'][:n])
+		display_points(img, matcher_data['scan key points'], size=4, color=(0,255,0))
+		cv.putText(img, f"# of kp: {len(matcher_data['scan key points'])}/{len(matcher_data['matched key points'])}/{len(matcher_data['key points'])}", (5,30), font, 0.5, (0,255,0), 1, cv.LINE_AA)
+		cv.imshow('matches', img)
     
 def display_points(img, points, color=(255,0,0), size=10):
     for point in points:

@@ -25,5 +25,5 @@
 
 
 ## code
-- VLAD implementation: https://github.com/tim-hilt/vlad/tree/master
-
+- VLAD encoder implementation: https://github.com/tim-hilt/vlad/tree/master
+- MAC feature extractor implementation: https://github.com/fmaglia/keras_rmac_plus/tree/master
