@@ -9,8 +9,6 @@ import time
 import random
 
 
-
-    
 def build_codebook_from_coco():
     fe = RootSIFT()
     descriptors = []
