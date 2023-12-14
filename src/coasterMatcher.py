@@ -96,26 +96,22 @@ class CoasterMatcher:
     def match_wrap(self, image, bboxs, k=5, **kwargs):
         if len(bboxs) == 0:
             matcher_data = self.match(image, k=3) 
-            return matcher_data
+            return [matcher_data]
         
-        matcher_data = {'matches': [],
-                        'distances': [],
-                        'key points': [],
-                        'matched key points': [],
-                        'scan key points': []
-                        }
+        matcher_datas = []
         for bbox in bboxs:
             img_, x0,y0 = extract_img(image, bbox)
             w,h = get_img_shape(img_)
             new_w = max(w,h)
             new_h = new_w
             img_ = cv.resize(img_, (new_w, new_h))
-            matcher_data = self.match(img_, k=1) 
+            matcher_data = self.match(img_, k=3) 
             matcher_data['key points'] = self.resize_keypoints(matcher_data['key points'], w,h, new_w, new_h)
             matcher_data['matched key points'] = self.resize_keypoints(matcher_data['matched key points'], w,h, new_w, new_h)
             matcher_data['key points'] = matcher_data['key points'] + (x0,y0) if len(matcher_data['key points']) > 0 else matcher_data['key points']
             matcher_data['matched key points'] = matcher_data['matched key points'] + (x0,y0) if len(matcher_data['matched key points']) > 0 else matcher_data['matched key points']
-        return matcher_data
+            matcher_datas.append(matcher_data)
+        return matcher_datas
         
         
         

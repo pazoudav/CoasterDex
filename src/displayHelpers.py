@@ -96,17 +96,18 @@ def freeze_display(img, callback_func):
 	cv.imshow('freeze_frame', img)
 
 
-def display_matcher_data(img, matcher_data, args, offset=(0,0), name='0'):
+def display_matcher_data(img, matcher_datas, args, offset=(0,0), name='0'):
 	if args.no_display:
 		return
-	if len(matcher_data['scan key points']) >= 16:
-		display_matches(matcher_data, args, name=name)
-		if 'm_bbox' in args.display:
-			add_bounding_box(img, matcher_data['matched key points'])
-	if 'm_kp' in args.display:
-		display_points(img, matcher_data['key points'])
-	if 'm_mkp' in args.display:
-		display_points(img, matcher_data['matched key points'], color=(0,255,0)) 
+	for idx, matcher_data in enumerate(matcher_datas):
+		if len(matcher_data['scan key points']) >= 16:
+			display_matches(matcher_data, args, name=idx)
+			if 'm_bbox' in args.display:
+				add_bounding_box(img, matcher_data['matched key points'])
+		if 'm_kp' in args.display:
+			display_points(img, matcher_data['key points'])
+		if 'm_mkp' in args.display:
+			display_points(img, matcher_data['matched key points'], color=(0,255,0)) 
    
 	
 def display_bboxs(img, bboxs, args):
