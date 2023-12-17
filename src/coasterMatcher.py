@@ -52,34 +52,39 @@ def build_codebook_from_coco_and_scans():
 def build_lookup_from_database(database):
     fe = RootSIFT()
     en = VLAD().load('VLAD-RootSIFT')
-    lk = LocallySensitiveHashing()
+    lk = BallTree()
     descriptors = []
     for file in folder_iterator(database):
         image, name = open_image(file)
         _, des = fe.extract(image)
         descriptors.append(des)
     features = en.encode(descriptors)
-    lk.make(features).save('LSH-VLAD-RootSIFT')
+    lk.make(features).save('BallTree-VLAD-RootSIFT-test')
+    
+    
+    
     
 
 class CoasterMatcher:
     def __init__(self, dataset='dataset/coaster-scans/'):
         self.featureExtractor : FeaturesExtractor = RootSIFT()
         self.encoder : Encoder = VLAD().load('VLAD-RootSIFT')
-        self.lookup : Lookup = BallTree().load('BallTree-VLAD-RootSIFT')
+        self.lookup : Lookup = BallTree().load('BallTree-VLAD-RootSIFT-test')
         self.index = {}
         self.dataset = dataset
         self.clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-        self.load_index('basic')
+        self.load_index('test')
         
     def save_index(self, name):
         dump(self.index, f'matcher_files/{name}.idx')
+        return self
         
     def load_index(self, name):
         self.index = load(f'matcher_files/{name}.idx')
         return self
         
     def make_index(self):
+        self.index = {}
         for idx, file in enumerate(folder_iterator(self.dataset)):
             _, name = open_image(file)
             self.index[idx] = name
@@ -175,7 +180,7 @@ class CoasterMatcher:
         # save thumbnail
         small_img = resize_to_width(image.copy(), 200)
         name = f'{name}-{int(time.time())}' # adding time tag to prevent name collisions
-        cv.imwrite(f'dataset/coaster-scans/{name}.jpg', small_img)
+        cv.imwrite(f'{self.dataset}{name}.jpg', small_img)
         
         image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)    
         image = self.clahe.apply(image)
@@ -192,5 +197,5 @@ class CoasterMatcher:
     
 if __name__ == '__main__':
     # build_codebook_from_coco_and_scans()
-    build_lookup_from_database('dataset/coaster-scans/')
+    build_lookup_from_database('dataset/coaster-testset/')
     ...

@@ -54,7 +54,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cap = get_source(args)
     
-    matcher = None if args.no_match else CoasterMatcher()
+    matcher = None if args.no_match else CoasterMatcher(dataset='dataset/coaster-testset/') # file to the images of test scans
     finder = None if args.no_find else CoasterFinder()
     
     while main_loop(matcher, finder):
