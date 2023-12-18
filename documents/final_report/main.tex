@@ -102,6 +102,9 @@ In \cite{} CNN is used to tackle grocery product recognition. The authors approa
 Most of the approaches for the instance recognition were taken from two throughout overviews on the subject \cite{} \cite{},
 where authors compare older SIFT based and newer CNN based approaches to this problem.
 
+Working with small datasets can be tricky since it can lead to overfitted models. Using smaller models increases performance in these cases.\cite{} Data augmentation is also a powerful tool for these situations due to its ability to 
+increase dataset size artificially. \cite{}
+
 % add Finder background materials 
 
 
@@ -149,13 +152,14 @@ were found on a coaster collection database found on the website coasters.eu \ci
 These cutouts were placed in various locations within the authors reach and photographed. The total number of coaster cutouts for the 
 training dataset was 120 with some additional photos taken per coaster and 5 empty photos. This provides a dataset of 184 but 2 photos
 including faces and 4 photos including beer in a glass were included later upon retraining to increase environment specific learning.
-Heavy augmentation was also used to bring the total image count to 498 images.
+Heavy augmentation was also used to bring the total image count to 498 images. List of used augments is Flip, 90°Rotate, Crop, Shear, Grayscale, Hue, Brightness, Exposure, Blur,
+Bounding Box: Rotation, Bounding Box: Shear, Bounding Box: Brightness, Bounding Box: Noise. The augments were applied randomly and automatically using roboflow.
 
 \subsection{Finder}
 
 To experiment with the finder results a new test dataset was created. The new dataset had 44 images with 50 coasters and various other objects located
 within certain images. Two models were tested, both were fine tuned on yolov5s. One had 184 images, specifically missing the two images containing faces and four images containing beer.
-The second model did contain the previously missing images and was heavily augmented. The results are as follows:
+The second model did contain the previously missing images and was heavily augmented. The results are as follows: 
 Synthetic version:
     Recall = 0.96, Precision = 0.83
     Average confidence of correct detections = 0.74
