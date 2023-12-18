@@ -67,9 +67,9 @@ def build_lookup_from_database(database):
 
 class CoasterMatcher:
     def __init__(self, dataset='dataset/coaster-scans/'):
-        self.featureExtractor : FeaturesExtractor = SIFT()
-        self.encoder : Encoder = VLAD().load('VLAD-SIFT')
-        self.lookup : Lookup = BallTree().load('BallTree-VLAD-SIFT')
+        self.featureExtractor : FeaturesExtractor = ORB()
+        self.encoder : Encoder = VLAD().load('VLAD-ORB')
+        self.lookup : Lookup = BallTree().load('BallTree-VLAD-ORB')
         self.index = {}
         self.dataset = dataset
         self.clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))

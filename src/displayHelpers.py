@@ -23,8 +23,9 @@ class FolderInput:
 		# self.idx = self.idx%len(self.files)
 		file = self.files[self.idx]
 		self.idx += 1
+
 		img, name = open_image(file)
-		return True, img
+		return self.idx < len(self.files), img
  
  
 def tick():

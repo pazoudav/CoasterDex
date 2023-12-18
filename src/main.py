@@ -2,6 +2,7 @@ import cv2 as cv
 import argparse
 import numpy as np
 import os
+import time
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
@@ -54,7 +55,7 @@ def main_loop(matcher, finder):
     elif key == ord('c'):
         freeze_display(org_img, matcher.add_coaster)
         
-    return True
+    return ret
  
 
 if __name__ == '__main__':  
@@ -63,19 +64,10 @@ if __name__ == '__main__':
     
     matcher = None if args.no_match else CoasterMatcher() # file to the images of test scans
     finder = None if args.no_find else CoasterFinder()
-    
+
     while main_loop(matcher, finder):
         ...
         
     cap.release()
     cv.destroyAllWindows()    
     
-    # BallTree-VLAD-RoorSIFT =        0.7578   ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'n']
-    # BallTree-VLAD-ORB =             0.3578   ['n', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
-    # BallTree_VLAD-SIFT =            0.7842   ['y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y']
-    # BallTree-VLAD-RootSIFT+finder = 0.9631   ['y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y']
-
-
-
-
-
