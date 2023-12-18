@@ -1,7 +1,7 @@
 import time
 import cv2 as cv
 import numpy as np
-from matcher.helper import resize_to_width
+from matcher.helper import resize_to_width, folder_iterator, open_image
 
 font = cv.FONT_HERSHEY_SIMPLEX 
 now = time.time() 
@@ -12,6 +12,20 @@ class ImageInput:
 		self.img = cv.imread(path)
 	def read(self):
 		return True, self.img.copy()
+
+class FolderInput:
+	def __init__(self, path):
+		self.path = path
+		self.files = [f for f in folder_iterator(path)]
+		self.idx = 0
+
+	def read(self):
+		# self.idx = self.idx%len(self.files)
+		file = self.files[self.idx]
+		self.idx += 1
+
+		img, name = open_image(file)
+		return self.idx < len(self.files), img
  
  
 def tick():
