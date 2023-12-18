@@ -94,10 +94,10 @@ Bounding Box: Noise
 
 # Coaster detection
 44 images with 50 coasters not present in training set
-Synthetic version:
+# Synthetic version:
     Recall = 0.96, Precision = 0.83
     Average confidence of correct detections = 0.74
-Augmented version:
+# Augmented version:
     Recall = 0.9, Precision = 0.85
     Average confidence of correct detections = 0.78
 
@@ -153,6 +153,7 @@ Augmented version:
     - full parallelism
     - extension to a full application
     - proper database
+    - more advanced testing
 
 ---
 
