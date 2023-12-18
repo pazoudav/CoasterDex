@@ -1,0 +1,121 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Proposition,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightOrange}
+
+\declaretheoremstyle[name=Principle,]{prcpsty}
+\declaretheorem[style=prcpsty,numberlike=theorem]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen}
+
+\setstretch{1.2}
+\geometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+% ------------------------------------------------------------------------------
+
+\title{ \normalsize \textsc{}
+		\\ [2.0cm]
+		\HRule{1.5pt} \\
+		\huge \textbf{CoasterDex
+		\HRule{2.0pt} \\ [0.6cm] \Large{software for recognition and classifiaction of beer-coasters from images} \vspace*{10\baselineskip}}
+		}
+\date{}
+\author{\textbf{Authors} \\ 
+		David Pažout \& Dagur Elinór Kristinnson\\
+		RU \\
+		19.12.2023}
+
+\maketitle
+\newpage
+
+\tableofcontents
+
+\hspace{20pt}
+
+\begin{abstract}
+    abstract text
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+% - problem statement & project idea. 
+% - Relevant prior work reported by others.  Existing methods, software, and data sets that could be applied to your solution. 
+% - How does your application, application area, or approach differ from the prior work?
+
+\section{Materials and Methods}
+% - Methods, software, and datasets that you tested and selected. 
+% - How did you adapt the methods for use in your application?
+
+
+\section{Results}
+% - Interpretation of the results. 
+% - How do your results compare to the prior work?
+% - How do they meet the needs of your application?
+
+
+\section{Discussion}
+
+
+\section{Conclusion}
+% - Conclusions and future work
+% - What does your work tell you about the technical feasibility of achieving your goals?
+% - Ideas for future work on the project or spin-offs.
+
+
+
+
+% \begin{figure}[htbp]
+%     \center
+%     \includegraphics[scale=0.06]{img/photo.jpg}
+%     \caption{Sydney, NSW}
+% \end{figure}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Reference and Cited Works
+% ------------------------------------------------------------------------------
+
+\bibliographystyle{IEEEtran}
+\bibliography{References.bib}
+
+% ------------------------------------------------------------------------------
+
+\end{document}
