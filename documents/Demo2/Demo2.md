@@ -72,10 +72,54 @@ marp: true
 
 ---
 
-# Coaster detection
+# Augmentation
+## Roboflow provided automatic augmentation
+Flip, 90°Rotate, Crop, Shear, Grayscale, Hue, Brightness, Exposure, Blur,
+Bounding Box: Rotation, Bounding Box: Shear, Bounding Box: Brightness,
+Bounding Box: Noise
+190 images -> 498 images
 
 ---
 
+# Coaster detection model improvements
+## Old Dataset
+- 179 Photos of 120 coasters, 5 empty photos
+## Additions
+- 4 coasters with a beer glass nearby
+- 2 pictures with faces
+- Dataset augmentation 
+![width:100px](./pictures/TrainDataExample.jpg)
+
+---
+
+# Coaster detection
+44 images with 50 coasters not present in training set
+Synthetic version:
+    Recall = 0.96, Precision = 0.83
+    Average confidence of correct detections = 0.74
+Augmented version:
+    Recall = 0.9, Precision = 0.85
+    Average confidence of correct detections = 0.78
+
+---
+
+# Detections example V1
+
+![width:200px](./pictures/V1/testimg22.jpg) ![width:200px](./pictures/V1/testimg37.jpg) ![width:200px](./pictures/V1/testimg35.jpg) ![width:200px](./pictures/V1/testimg29.jpg) ![width:200px](./pictures/V2/testimg33.jpg)
+
+--- 
+
+# Detections example V2
+![width:200px](./pictures/V2/testimg22.jpg) ![width:200px](./pictures/V2/testimg37.jpg) ![width:200px](./pictures/V2/testimg35.jpg) ![width:200px](./pictures/V2/testimg29.jpg) ![width:200px](./pictures/V2/testimg33.jpg) 
+
+--- 
+
+# Finalizing dataset
+- Training dataset needs more environment objects, specifically beer for better recall
+- Augmentation can be experimented with to be utilized more effectively to improve generalization
+- Augmented model might prove superior since both train and test datasets are most likely to specific
+
+--- 
 <!-- 
 - Work involved:
     - Division of labor - who did what. 
