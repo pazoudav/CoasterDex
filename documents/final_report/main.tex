@@ -53,7 +53,7 @@
 		\\ [2.0cm]
 		\HRule{1.5pt} \\
 		\huge \textbf{CoasterDex
-		\HRule{2.0pt} \\ [0.6cm] \Large{software for recognition and classifiaction of beer-coasters from images} \vspace*{10\baselineskip}}
+		\HRule{2.0pt} \\ [0.6cm] \Large{software for detection and recognition of beer-coasters from images} \vspace*{10\baselineskip}}
 		}
 \date{}
 \author{\textbf{Authors} \\ 
@@ -69,7 +69,10 @@
 \hspace{20pt}
 
 \begin{abstract}
-    abstract text
+CoasterDex is a software for detection and classification of beercoasters in images and video.
+It combines fine tuned Yolov5 based CNN with 
+custom SIFT based instance level recognition algorithm 
+to achieve high accuracy detection of beercoasters across varied environments.
 \end{abstract}
 
 \newpage
@@ -78,16 +81,70 @@
 % - problem statement & project idea. 
 % - Relevant prior work reported by others.  Existing methods, software, and data sets that could be applied to your solution. 
 % - How does your application, application area, or approach differ from the prior work?
+\subsection{Problem Definition}
+This problem is inspired by my friend who collects beercoasters. 
+They have a collection of more then 200 unique beercoasters. 
+Every time I'm in a pub and see a beercoaster I don't know if they already have it or not.
+They aren't always available to be asked or they sometimes don't remember and bringing them a duplicate coaster is suboptimal.
+
+Formal definition is as follows, we have a collection $C=\{c_1,...c_n | c_i \neq c_j;\ \forall i,j;\ i \neq j\}$ of images of unique beercoasters or coaster-scans from frontal view.
+Given an input image $img$, the goal is to find all beercoasters $B=\{b_1...b_m\}$ present in the image 
+and determine if a beercoaster $b \in B$ is also present in $C$. 
+If $b$ isn't present in the collection we should add it to the collection ($C \leftarrow C \cup b$).
+
+\subsection{Relevant Work}
+We found a few papers tackling a similar or adjacent problems.
+The oldest is a paper from 2011 solving postage stamp recognition from photo-scans \cite{}.
+Since the paper was written before wide adoption of CNN it mainly uses custom, hand-crafted features and template matching for classification of relatively small number of stamps.
+The authors in HotSpotter \cite{} try to match individual animals (not species) with past photos in a larger database with multiple instances of each individual.
+In \cite{} CNN is used to tackle grocery product recognition. The authors approach the problem as classification of images into 100 plus classes.
+
+Most of the approaches for the instance recognition were taken from two throughout overviews on the subject \cite{} \cite{},
+where authors compare older SIFT based and newer CNN based approaches to this problem.
+
+% add Finder background materials 
+
 
 \section{Materials and Methods}
 % - Methods, software, and datasets that you tested and selected. 
 % - How did you adapt the methods for use in your application?
+We decomposed the problem to two main parts: Finder and Matcher.
+Finder is an image classification and localization algorithm and its goal is to find all
+occurrences of beercoasters $B=\{b_1...b_m\}$ in the image $img$ with their appropriate bounding boxes.
+Matcher is an instance level recognition/retrieval algorithm and its goal is to match 
+a beercoaster from the collection $c \in C$ with a beercoaster $b$ present in the image $img$
+or to determine that no matching beercoaster is present in the image.
+
+\subsection{Finder - Coaster Detection}
+
+
+\subsection{Matcher - Instance Recognition}
+
+
+\subsection{Finder\&Matcher Integration}
+
+We first input the image into the Finder, as output we receive a list of bounding boxes.
+If the list is empty we input an unaltered image to the matcher.
+Otherwise we do for each bounding box separably the following: 
+we extract part of the image inside the bounding box, 
+stretch the cropped image to a square - this helps with feature extraction since most coasters are of square-ish shape - 
+and input the stretched image into the Matcher.
+As the output we have a list of best matched coasters for each bounding box or the whole image. 
+
 
 
 \section{Results}
 % - Interpretation of the results. 
 % - How do your results compare to the prior work?
 % - How do they meet the needs of your application?
+\subsection{Dataset}
+% dataset creation and other stuff
+
+\subsection{Finder}
+
+\subsection{Matcher}
+
+\subsection{Finder\&Matcher}
 
 
 \section{Discussion}
