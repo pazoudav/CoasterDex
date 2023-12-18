@@ -1,10 +1,12 @@
 import cv2 as cv
 import argparse
 import numpy as np
+import os
 
 from coasterFinder import CoasterFinder
 from coasterMatcher import CoasterMatcher
-from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput, display_bboxs
+from displayHelpers import add_fps, display_matcher_data, freeze_display, ImageInput, FolderInput, display_bboxs
+from matcher.helper import resize_to_width
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--source', '-s', type=str, default='webcam', 
@@ -20,13 +22,17 @@ def get_source(args):
         cap = cv.VideoCapture(0)
     elif args.source == 'ip':
         cap = cv.VideoCapture('https://192.168.1.4:8080/video')
-    else:
+    elif os.path.isfile(args.source):
         cap = ImageInput(args.source)
+    elif os.path.isdir(args.source):
+        cap = FolderInput(args.source)
+    else:
+        raise ValueError("invalid source")
     return cap
 
 
 def main_loop(matcher, finder):
-    ret, img = cap.read()     
+    ret, img = cap.read()  
     org_img = img.copy()
     bboxs, best_matches = [], []
     if not args.no_find:
@@ -35,12 +41,13 @@ def main_loop(matcher, finder):
     if not args.no_match:
         matcher_data =  matcher.match_wrap(org_img, bboxs=bboxs, k=3)
         display_matcher_data(img, matcher_data, args) 
-
+        
     
     if not args.no_display:
         add_fps(img)
+        # img = resize_to_width(img, 360) 
         cv.imshow('frame', img)
-        
+          
     key = cv.waitKey(1)
     if key == ord('q'):
         return False    
@@ -54,7 +61,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cap = get_source(args)
     
-    matcher = None if args.no_match else CoasterMatcher(dataset='dataset/coaster-testset/') # file to the images of test scans
+    matcher = None if args.no_match else CoasterMatcher() # file to the images of test scans
     finder = None if args.no_find else CoasterFinder()
     
     while main_loop(matcher, finder):
@@ -63,7 +70,11 @@ if __name__ == '__main__':
     cap.release()
     cv.destroyAllWindows()    
     
-    
+    # BallTree-VLAD-RoorSIFT =        0.7578   ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'n']
+    # BallTree-VLAD-ORB =             0.3578   ['n', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n']
+    # BallTree_VLAD-SIFT =            0.7842   ['y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'y', 'n', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'y', 'y', 'n', 'n', 'y', 'n', 'y', 'y']
+    # BallTree-VLAD-RootSIFT+finder = 0.9631   ['y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', 'y']
+
 
 
 

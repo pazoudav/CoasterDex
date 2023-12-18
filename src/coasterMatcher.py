@@ -50,8 +50,8 @@ def build_codebook_from_coco_and_scans():
 
     
 def build_lookup_from_database(database):
-    fe = RootSIFT()
-    en = VLAD().load('VLAD-RootSIFT')
+    fe = SIFT()
+    en = VLAD().load('VLAD-SIFT')
     lk = BallTree()
     descriptors = []
     for file in folder_iterator(database):
@@ -59,7 +59,7 @@ def build_lookup_from_database(database):
         _, des = fe.extract(image)
         descriptors.append(des)
     features = en.encode(descriptors)
-    lk.make(features).save('BallTree-VLAD-RootSIFT-test')
+    lk.make(features).save('BallTree-VLAD-SIFT')
     
     
     
@@ -67,13 +67,13 @@ def build_lookup_from_database(database):
 
 class CoasterMatcher:
     def __init__(self, dataset='dataset/coaster-scans/'):
-        self.featureExtractor : FeaturesExtractor = RootSIFT()
-        self.encoder : Encoder = VLAD().load('VLAD-RootSIFT')
-        self.lookup : Lookup = BallTree().load('BallTree-VLAD-RootSIFT-test')
+        self.featureExtractor : FeaturesExtractor = SIFT()
+        self.encoder : Encoder = VLAD().load('VLAD-SIFT')
+        self.lookup : Lookup = BallTree().load('BallTree-VLAD-SIFT')
         self.index = {}
         self.dataset = dataset
         self.clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-        self.load_index('test')
+        self.load_index('basic')
         
     def save_index(self, name):
         dump(self.index, f'matcher_files/{name}.idx')
@@ -197,5 +197,5 @@ class CoasterMatcher:
     
 if __name__ == '__main__':
     # build_codebook_from_coco_and_scans()
-    build_lookup_from_database('dataset/coaster-testset/')
+    build_lookup_from_database('dataset/coaster-scans/')
     ...
