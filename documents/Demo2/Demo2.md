@@ -19,57 +19,54 @@ marp: true
 
 ---
 
-# Coaster detection 
-
-- Working detection model but code is broken'
-- Mostly accurate feature matching, needs bounding box implementation
-- Homogenous transformation of detected coaster for angle correction most likely unnecessary
-
-
-
----
-
-# Model training for coaster detection
-## Dataset
+# Coaster detection model improvements
+## Old Dataset
 - 179 Photos of 120 coasters, 5 empty photos
-![width:300px](./pictures/Dataset/website.png) ![width:150px](./pictures/Dataset/dataset2.jpg) ![width:150px](./pictures/Dataset/dataset3.jpg)
----
-
-# Training results
-![image](./pictures/Training_graph.png)
-
-------
-
-# Model inference test
-![image](./pictures/Infertest/images1.jpg) ![image](./pictures/Infertest/images2.jpg)![image](./pictures/Infertest/images3.jpg)![image](./pictures/Infertest/images4.jpg) ![image](./pictures/Infertest/testimg1.jpg)![image](./pictures/Infertest/testimg3.jpg)![image](./pictures/Infertest/testimg4.jpg) ![image](./pictures/Infertest/testimg6.jpg)![image](./pictures/Infertest/testimg7.jpg)![image](./pictures/Infertest/testimg8.jpg)![image](./pictures/Infertest/testimg9.jpg)
+## Additions
+- 4 coasters with a beer glass nearby
+- 2 pictures with faces
+- Dataset augmentation 
+![width:100px](./pictures/TrainDataExample.jpg)
 
 ---
 
-# Inference test results
-![width:200px](./pictures/TestDetections/images1.jpg) ![width:300px](./pictures/TestDetections/images2.jpg) ![image](./pictures/TestDetections/images3.jpg) ![image](./pictures/TestDetections/images4.jpg) ![width:100px](./pictures/TestDetections/testimg1.jpg) ! ![width:100px](./pictures/TestDetections/testimg3.jpg) ![width:100px](./pictures/TestDetections/testimg4.jpg) ![width:100px](./pictures/TestDetections/testimg5.jpg)  ![width:100px](./pictures/TestDetections/testimg8.jpg) ![width:100px](./pictures/TestDetections/testimg9.jpg) 
-![width:400px](./pictures/TestDetections/testimg7.jpg)![width:400px](./pictures/TestDetections/testimg6.jpg) 
+# Augmentation
+## Roboflow provided automatic augmentation
+Flip, 90°Rotate, Crop, Shear, Grayscale, Hue, Brightness, Exposure, Blur,
+Bounding Box: Rotation, Bounding Box: Shear, Bounding Box: Brightness,
+Bounding Box: Noise
+190 images -> 498 images
 
 ---
 
-# Work involved
+# Coaster detection model test
+44 images with 50 coasters not present in training set
 
-- Feature matching for instance level recognition
-- Integration of existing code
-- Model training for coaster detection
-- Custom dataset creation
-- Model training environment errors took time to resolve
-
-<!-- - individual coaster **instance** recognition and coaster **class** classification -->
+Synthetic version:
+    Recall = 0.96, Precision = 0.83
+    Average confidence of correct detections = 0.74
+Augmented version:
+    Recall = 0.9, Precision = 0.85
+    Average confidence of correct detections = 0.78
 
 ---
 
-# Moving forwards
-- Combine modules for full functionality
-- Speed optimizations
-- Final goal is quick and accurate matching from various coaster types
-- Color dependant features/recognition
-- Different search for faster coaster addition
-- Async call implementation 
+# Detections example V1
+
+![width:200px](./pictures/V1/testimg22.jpg) ![width:200px](./pictures/V1/testimg37.jpg) ![width:200px](./pictures/V1/testimg35.jpg) ![width:200px](./pictures/V1/testimg29.jpg) ![width:200px](./pictures/V2/testimg33.jpg)
+
+---
+
+# Detections example V2
+
+![width:200px](./pictures/V2/testimg22.jpg) ![width:200px](./pictures/V2/testimg37.jpg) ![width:200px](./pictures/V2/testimg35.jpg) ![width:200px](./pictures/V2/testimg29.jpg) ![width:200px](./pictures/V2/testimg33.jpg) 
+
+---
+
+# Finalizing dataset
+- Training dataset needs more environment objects and more beer for better recall
+- Augmentation can be experimented with to be utilized more effectively to reduce generalization
+- Augmented model might prove superior since both train and test datasets are most likely to specific
 
 ---
 
