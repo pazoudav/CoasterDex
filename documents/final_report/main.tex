@@ -155,7 +155,13 @@ Heavy augmentation was also used to bring the total image count to 498 images.
 
 To experiment with the finder results a new test dataset was created. The new dataset had 44 images with 50 coasters and various other objects located
 within certain images. Two models were tested, both were fine tuned on yolov5s. One had 184 images, specifically missing the two images containing faces and four images containing beer.
-The second model did contain the previously missing images and was heavily augmented. The results are as follows
+The second model did contain the previously missing images and was heavily augmented. The results are as follows:
+Synthetic version:
+    Recall = 0.96, Precision = 0.83
+    Average confidence of correct detections = 0.74
+Augmented version:
+    Recall = 0.9, Precision = 0.85
+    Average confidence of correct detections = 0.78
 
 \subsection{Matcher}
 
