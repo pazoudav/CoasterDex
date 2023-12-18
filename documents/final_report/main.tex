@@ -117,6 +117,10 @@ or to determine that no matching beercoaster is present in the image.
 
 \subsection{Finder - Coaster Detection}
 
+To implement a coaster finding program the utilized method was yolov5 object detection model small version. The model was fine tuned
+with a custom dataset specifically designed to train coaster detection. Roboflow was used to label the dataset and perform augmentations.
+With a functional coaster detection model, opencv was used to extract the given bounding boxes and then returned to the matcher for 
+integration.
 
 \subsection{Matcher - Instance Recognition}
 
@@ -139,6 +143,13 @@ As the output we have a list of best matched coasters for each bounding box or t
 % - How do they meet the needs of your application?
 \subsection{Dataset}
 % dataset creation and other stuff
+In making a coaster finder dataset we lacked coasters due to coaster scarcity in Iceland where this project was worked on.
+To solve this issue the images of coasters were printed on paper to create the percieved appearance of a coaster. The images of coasters
+were found on a coaster collection database found on the website coasters.eu \cite{}. The printed images were cut out and roughly sized proportionally to real coasters. 
+These cutouts were placed in various locations within the authors reach and photographed. The total number of coaster cutouts for the 
+training dataset was 120 with some additional photos taken per coaster and 5 empty photos. This provides a dataset of 184 but 2 photos
+including faces and 4 photos including beer in a glass were included later upon retraining to increase environment specific learning.
+Heavy augmentation was also used to bring the total image count to 498 images.
 
 \subsection{Finder}
 
