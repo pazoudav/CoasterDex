@@ -53,7 +53,7 @@
 		\\ [2.0cm]
 		\HRule{1.5pt} \\
 		\huge \textbf{CoasterDex
-		\HRule{2.0pt} \\ [0.6cm] \Large{software for detection and recognition of beer-coasters from images} \vspace*{10\baselineskip}}
+		\HRule{2.0pt} \\ [0.6cm] \Large{software for detection and recognition of beercoasters from images} \vspace*{10\baselineskip}}
 		}
 \date{}
 \author{\textbf{Authors} \\ 
@@ -69,10 +69,12 @@
 \hspace{20pt}
 
 \begin{abstract}
-CoasterDex is a software for detection and classification of beercoasters in images and video.
+\textit{
+\emph{CoasterDex} is a software for detection and classification of beercoasters in images and video.
 It combines fine tuned Yolov5 based CNN with 
 custom SIFT based instance level recognition algorithm 
 to achieve high accuracy detection of beercoasters across varied environments.
+}
 \end{abstract}
 
 \newpage
@@ -87,23 +89,30 @@ They have a collection of more then 200 unique beercoasters.
 Every time I'm in a pub and see a beercoaster I don't know if they already have it or not.
 They aren't always available to be asked or they sometimes don't remember and bringing them a duplicate coaster is suboptimal.
 
-Formal definition is as follows, we have a collection $C=\{c_1,...c_n | c_i \neq c_j;\ \forall i,j;\ i \neq j\}$ of images of unique beercoasters or coaster-scans from frontal view.
+\begin{figure}[H]
+    \center
+    \includegraphics[scale=0.5]{img/coasters.jpg}
+    \caption{Example of beercoaster collection \cite{coasterExample}}
+\end{figure}
+
+Formal definition is as follows, we have a collection $C=\{c_1,...c_n\ |\ c_i \neq c_j;\ \forall i,j:\ i \neq j\}$ of images of unique beercoasters or coaster-scans from frontal view.
 Given an input image $img$, the goal is to find all beercoasters $B=\{b_1...b_m\}$ present in the image 
 and determine if a beercoaster $b \in B$ is also present in $C$. 
 If $b$ isn't present in the collection we should add it to the collection ($C \leftarrow C \cup b$).
 
 \subsection{Relevant Work}
 We found a few papers tackling a similar or adjacent problems.
-The oldest is a paper from 2011 solving postage stamp recognition from photo-scans \cite{}.
+The oldest is a paper from 2011 solving postage stamp recognition from photo-scans \cite{postage}.
 Since the paper was written before wide adoption of CNN it mainly uses custom, hand-crafted features and basic template matching for classification of relatively small number of stamps.
-The authors in HotSpotter \cite{} try to match individual animals (not species) with past photos in a larger database with multiple instances of each individual.
-In \cite{} CNN is used to tackle grocery product recognition. The authors approach the problem as classification of images into 100 plus classes.
+The authors in HotSpotter \cite{HotSpotter} try to match individual animals (not species) with past photos in a larger database with multiple instances of each individual.
+In \cite{grocery}, a CNN is used to tackle grocery product recognition. The authors approach the problem as classification of images into 100 plus classes.
 
-Most of the approaches for the instance recognition were taken from two throughout overviews on the subject \cite{} \cite{},
+Most of the approaches for the instance recognition were taken from two throughout overviews on the subject \cite{overview1} \cite{overview2},
 where authors compare older SIFT based and newer CNN based approaches to this problem.
 
-Working with small datasets can be tricky since it can lead to overfitted models. Using smaller models increases performance in these cases.\cite{} Data augmentation is also a powerful tool for these situations due to its ability to 
-increase dataset size artificially. The technique revolves around creating artificial copies of images with slight variations in specific image attributes, brightness for example. Data augmentation does not alter any biases of the original data set which needs to be complete in its content. Augmenting can also be a lot of work, figuring out the extensiveness of the augmentation approach needs to be done iteratively. \cite{}
+Working with small datasets can be tricky since it can lead to overfitted models. Using smaller models increases performance in these cases \cite{augmentation2}. Data augmentation is also a powerful tool for these situations due to its ability to 
+increase dataset size artificially. The technique revolves around creating artificial copies of images with slight variations in specific image attributes, brightness for example. Data augmentation does not alter any biases of the original data set which needs to be complete in its content. 
+Augmenting can also be a lot of work, figuring out the extensiveness of the augmentation approach needs to be done iteratively \cite{augmentation1}.
 
 % add Finder background materials 
 
@@ -134,31 +143,32 @@ integration.
 There are many approaches to instance recognition/retrieval. 
 The two most popular are "classic" SIFT based approaches and "modern" CCN based approaches.
 The goal of both is to extract one (or multiple) feature vectors of fixed length from the image and compare them to feature vector(s) extracted from the images in the collection and retrieve the most similar images based on similarity of those feature vectors.
-The general pipeline is summarized in fig1.
+The general pipeline is summarized in Figure \ref{fig:1}.
 It consist of three steps: feature extractions, encoding and indexing/search.
 We opted for a compact representation of the final encoded feature vector, this enables us to easily test both SIFT and CNN base approaches with Nearest Neighbor (NN) search.
 
 \begin{figure}[H]
     \center
     \includegraphics[scale=0.5]{img/img-rec-pipeline.jpg}
-    \caption{general instance retrieval pipeline as presented in \cite{}}
+    \caption{General instance retrieval pipeline structure as presented in \cite{overview1}}
+    \label{fig:1}
 \end{figure}
 
-For SIFT based recognition we tried multiple feature extractors such as SIFT, RootSIFT and ORB.
-Encoding used was VLAD \cite{} from \cite{}.
+For SIFT based recognition we tried multiple feature extractors such as SIFT, RootSIFT and ORB from openCV.
+Encoding used was VLAD \cite{VLAD} from \cite{VLAD-implementation}.
 For the CNN based recognition we limited ourselves to the Pre-trained CCNs since our dataset was relatively small and unsuitable for finetuning.
-The CNN method chosen was R-MAC \cite{} from \cite{}
+The CNN method chosen was R-MAC \cite{RMAC} from \cite{RMAC-implementation}
 We had trouble finding suitable CNN feature extractor implementations in python (we found multiple in Matlab) so we were unable to compare multiple approaches.
-The search methods tried were Aproximate NN from [pynndescent], Product Quantization (PQ) from [nanopq], Locally Sensitive Hashing (LSH) from [nearpy] and KDTree and BallTree from [sklearn].
+The search methods tried were Aproximate NN from pynndescent python package, Product Quantization (PQ) from nanopq  python package, Locally Sensitive Hashing (LSH) from nearpy python package and KDTree and BallTree from sklearn python package.
 In the end we choose BallTree NN search since it outperformed most of the searches in both time needed to create the search structure and time needed for addition of new element to the search
 It is also suitable for search in high-dimensional spaces. 
 
 The core of the pipeline consists of SIFT feature extractor, VLAD encoding and BallTree search.
 For preprocessing we scale large images to maximum width of 640px while preserving the aspect ratio.
-We convert images to grey-scale and apply Contrast Limited Adaptive Histogram Equalization (CLAHE) \cite{} to increase the number of features extracted in low-light environments. 
+We convert images to grey-scale and apply Contrast Limited Adaptive Histogram Equalization (CLAHE) \cite{CLAHE} to increase the number of features extracted in low-light environments. 
 For post processing we compare a number of matching features between the inputted and retrieved images.
 If number of matching features is less then 16 we discard the retrieved image and determine that no matching coaster was found in the image. 
-We also tried and discarded geometric feature matching with RANSAC \cite{} but this greatly increased the processing time needed and usually only let to less then 4 feature matches between the images.
+We also tried and discarded geometric feature matching with RANSAC \cite{RANSAC} but this greatly increased the processing time needed and usually only let to less then 4 feature matches between the images.
 
 
 \subsection{Finder\&Matcher Integration}
@@ -171,6 +181,7 @@ stretch the cropped image to a square - this helps with feature extraction since
 and input the stretched image into the Matcher.
 As the output we have a list of best matched coasters for each bounding box or the whole image. 
 
+We also implemented a way for users to add new coasters to the collection directly from the camera feed.
 
 
 \section{Results}
@@ -179,20 +190,20 @@ As the output we have a list of best matched coasters for each bounding box or t
 % - How do they meet the needs of your application?
 Our application is in very specific field, as such we had to create our own dataset for training and testing.
 We tested the Finder and Matcher independently and as a unified system.
-The relevant metrics for finder were recall and precision. For Matcher we opted for accuracy since there are 100+ instances present.
+The relevant metrics for finder were recall and precision. 
+In the case of Matcher we opted for accuracy since there are 100+ instances present.
 
 \subsection{Dataset}
 % dataset creation and other stuff
 In making a coaster finder dataset we lacked coasters due to coaster scarcity in Iceland where this project was worked on.
 To solve this issue the images of coasters were printed on paper to create the percieved appearance of a coaster. The images of coasters
-were found on a coaster collection database found on the website coasters.eu \cite{}. The printed images were cut out and roughly sized proportionally to real coasters. 
+were found on a coaster collection database found on the website of the private beercoaster collector \cite{euroCoasters}. The printed images were cut out and roughly sized proportionally to real coasters.
 These cutouts were placed in various locations within the authors reach and photographed. The total number of coaster cutouts for the 
 training dataset was 120 with some additional photos taken per coaster and 5 empty photos. This provides a dataset of 184 but 2 photos
 including faces and 4 photos including beer in a glass were included later upon retraining to increase environment specific learning.
+Full dataset is available at \cite{gdrive}.
 Heavy augmentation was also used to bring the total image count to 498 images. List of used augments is Flip, 90°Rotate, Crop, Shear, Grayscale, Hue, Brightness, Exposure, Blur,
 Bounding Box: Rotation, Bounding Box: Shear, Bounding Box: Brightness, Bounding Box: Noise. The augments were applied randomly and automatically using roboflow.
-
-\newpage
 
 \subsection{Finder}
 
@@ -226,12 +237,13 @@ Unfortunately we don't have numerical results for different search methods howev
     \begin{tabular}{ c|c c  } 
     features & accuracy & FPS \\ \hline \hline
     SIFT     & 0.78     & 1.5 \\ 
-    RootSift & 0.75     & 1.4 \\ 
+    RootSIFT & 0.75     & 1.4 \\ 
     ORB      & 0.38     & 9.1 \\
     R-MAC    & 0.04     & 0.7 \\ \hline
     SIFT+Finder & 0.96 & 1.48 \\
     \end{tabular}
     \caption{Matcher feature extractor results}
+    \label{tab:2}
 \end{table}
 
 \subsection{Finder\&Matcher}
@@ -244,18 +256,22 @@ The accuracy achieved with the Finder model trained on the Synthetic dataset was
 The comparison of the features used by Matcher, the basic SIFT outperformed RootSIFT which go against the general consensus on the feature extractors.
 We have no explanation of the poor results of R-MAC other than incorrect implementation on our side, since general consensus on R-MAC is that it outperforms standard SIFT based features.
 
-As we can see from the results of the Finder, the training on the Augmented dataset reduced recall and improved precision.
-This behavior might be undesirable in the integrated system since it is better for the Matcher to focus on false positive area rather than to miss the coaster in the scene entirely. To improve the recall of the finder the training data set needs to be expanded to a more coaster like environment to train the model on background objects. Augmentation use would need to be toned down if it were to be used at all.
-The combination of both systems leads to the best results, it allows the Matcher to focus only in potentially interesting areas, as we can se in fig2 where the addition of the Finder narrows area of interest thus decreasing total number of features in the image and prevents matcher from finding an incorrect coaster.
-
 \begin{figure}[H]
     \center
     \includegraphics[scale=0.4]{img/addedFinder.jpg}
     \caption{only Matcher (left), Matcher\&Finder (right)}
+    \label{fig:2}
 \end{figure}
 
-In section 3.3 we also included results of SIFT features combined with the Finder. The use of Finder on the Synthetic dataset are not representative of Finders general performance since it was trained on this dataset.
+As we can see from the results of the Finder, the training on the Augmented dataset reduced recall and improved precision.
+This behavior might be undesirable in the integrated system since it is better for the Matcher to focus on false positive area rather than to miss the coaster in the scene entirely. To improve the recall of the finder the training data set needs to be expanded to a more coaster like environment to train the model on background objects. Augmentation use would need to be toned down if it were to be used at all.
+The combination of both systems leads to the best results, it allows the Matcher to focus only in potentially interesting areas, as we can se in Figure \ref{fig:2} where the addition of the Finder narrows area of interest thus decreasing total number of features in the image and prevents matcher from finding an incorrect coaster.
+
+In Table \ref{tab:2} we also included results of SIFT features combined with the Finder. The use of Finder on the Synthetic dataset are not representative of Finders general performance since it was trained on this dataset.
 However we might view these as idealized results if the Finder finds the coaster in the image 100\% of the time.
+It was surprising to us that SIFT with combination in Finder ran at the same framerate as SIFT alone.
+This could be explained by the fact that using the Finder dramatically decrees number of features that need to be processed.
+
 
 
 \section{Conclusion}
@@ -263,8 +279,14 @@ However we might view these as idealized results if the Finder finds the coaster
 % - What does your work tell you about the technical feasibility of achieving your goals?
 % - Ideas for future work on the project or spin-offs.
 
-The results of this project have been amazing in terms of accuracy. It still operates at a low frame rate despite being intended as a phone application to fix this the video can run on a separate thread which maintains original video frame rate.
-A server implementation also works to maintain frame rate. In either solutions the search time remains slow which is fully acceptable. To figure out real world viability more testing needs to be done. 
+The results of this project have been above our initial expectations in terms of accuracy and overall usability. 
+The application operates at a lower frame rate despite being intended as a phone application some time in the future.
+To fix this issue the video can run on a separate thread, or the processing of the images can be done on a local or a remote server.
+We implemented a partially functioning server that supports only the Matcher part of the project. 
+More work needs to be done to make the server implementation fully functional.
+Another addition could be addition of color as a factor in the feature matching process.
+Most feature extractors work on grey-scale images, however use of color could be useful in our application.
+The final goal of this project would be to turn the recognition process into a working mobile application.
 With that being said the project is a success and can be implemented into a finished program for its intended use.
 
 

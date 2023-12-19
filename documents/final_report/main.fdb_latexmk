@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1702985154 "main.aux" "main.bbl" "main" 1702988994 0
-  "./References.bib" 1695119749 0 d41d8cd98f00b204e9800998ecf8427e ""
+["bibtex main"] 1702997713 "main.aux" "main.bbl" "main" 1702997785 0
+  "./References.bib" 1702996719 4615 c14aa7796de0984463db274273bec1a0 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/bibtex/bst/ieeetran/IEEEtran.bst" 1440622569 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1702988993 3108 bdae78ebe6360bb611adc30601245a58 "pdflatex"
+  "main.aux" 1702997783 4146 dd0726afeb2e296e162b560f8da9719f "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1702988990 "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" "main.pdf" "main" 1702988994 0
+["pdflatex"] 1702997781 "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" "main.pdf" "main" 1702997785 0
   "C:/Users/pazou/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1700649668 186243 cce28a64161a7feddc97d28fa8495fe4 ""
   "C:/Users/pazou/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1695120828 11548 77dd71447013008f402574c457937443 ""
   "C:/Users/pazou/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1680784646 23176373 645c469e0b3b20ae7c472af8f1065923 ""
@@ -36,6 +36,8 @@
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
+  "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmti10.tfm" 1136765053 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmti9.tfm" 1136765053 1476 cccc6cc4935c18ec3d5623b77ecb8b74 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1247596667 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
@@ -46,6 +48,8 @@
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1247596666 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1247596667 37944 359e864bd06cde3b1cf57bb20757fb06 ""
+  "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb" 1247596667 36310 f5ddc6715cc60deb16d9db5ded6a9391 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/generic/atbegshi/atbegshi.sty" 1575571100 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/generic/babel/babel.sty" 1676305192 151363 1f5971af3ef874d432e8fb43e0edb71d ""
@@ -181,14 +185,15 @@
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/trimspaces/trimspaces.sty" 1253169183 1380 971a51b00a14503ddf754cab24c3f209 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" 1702988989 15526 d666a54513eadbe88087619e43c0452b ""
+  "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" 1702997780 18026 f158ea633e9b1d45054a173b7f3745ea ""
   "img/addedFinder.jpg" 1702985090 648422 6c9e51681edc5ebed32c2c2c6de0f4a1 ""
+  "img/coasters.jpg" 1702993921 77860 45d6c5308afa2c99caade02aca5fb460 ""
   "img/img-rec-pipeline.jpg" 1702978135 160484 57c216068176ed5b998b7c106a87631a ""
-  "main.aux" 1702988993 3108 bdae78ebe6360bb611adc30601245a58 "pdflatex"
-  "main.bbl" 1702985155 901 628a2a8c68e066122d1514411e0b8455 "bibtex main"
-  "main.out" 1702988993 1807 9abc26f0b9ebaeb4a1c9553c02d3e32b "pdflatex"
-  "main.tex" 1702988989 15526 d666a54513eadbe88087619e43c0452b ""
-  "main.toc" 1702988993 1113 ec234be5bb8f418dec6cc23255526529 "pdflatex"
+  "main.aux" 1702997783 4146 dd0726afeb2e296e162b560f8da9719f "pdflatex"
+  "main.bbl" 1702997713 4737 c36ab7c0d4451bfed6bc7ef29a18f994 "bibtex main"
+  "main.out" 1702997783 1807 9abc26f0b9ebaeb4a1c9553c02d3e32b "pdflatex"
+  "main.tex" 1702997780 18026 f158ea633e9b1d45054a173b7f3745ea ""
+  "main.toc" 1702997783 1113 df8408208e8752a5973d6afc36134a37 "pdflatex"
   (generated)
   "main.aux"
   "main.log"

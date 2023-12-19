@@ -986,6 +986,14 @@ INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 OUTPUT main.toc
 INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr9.tfm
 INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx9.tfm
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti9.tfm
+INPUT .\img\coasters.jpg
+INPUT .\img\coasters.jpg
+INPUT img\coasters.jpg
+INPUT .\img\coasters.jpg
+INPUT .\img\coasters.jpg
+INPUT .\img\coasters.jpg
+INPUT .\img\coasters.jpg
 INPUT .\img\img-rec-pipeline.jpg
 INPUT .\img\img-rec-pipeline.jpg
 INPUT img\img-rec-pipeline.jpg
@@ -1005,6 +1013,7 @@ INPUT .\main.bbl
 INPUT main.bbl
 INPUT .\main.bbl
 INPUT main.bbl
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti10.tfm
 INPUT main.aux
 INPUT .\main.out
 INPUT .\main.out
@@ -1030,3 +1039,7 @@ INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\c
 INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr9.pfb
 INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
 INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmti10.pfb
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmti10.pfb
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmti9.pfb
+INPUT C:\Users\pazou\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmti9.pfb
