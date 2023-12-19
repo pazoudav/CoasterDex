@@ -95,7 +95,7 @@ If $b$ isn't present in the collection we should add it to the collection ($C \l
 \subsection{Relevant Work}
 We found a few papers tackling a similar or adjacent problems.
 The oldest is a paper from 2011 solving postage stamp recognition from photo-scans \cite{}.
-Since the paper was written before wide adoption of CNN it mainly uses custom, hand-crafted features and template matching for classification of relatively small number of stamps.
+Since the paper was written before wide adoption of CNN it mainly uses custom, hand-crafted features and basic template matching for classification of relatively small number of stamps.
 The authors in HotSpotter \cite{} try to match individual animals (not species) with past photos in a larger database with multiple instances of each individual.
 In \cite{} CNN is used to tackle grocery product recognition. The authors approach the problem as classification of images into 100 plus classes.
 
@@ -104,6 +104,10 @@ where authors compare older SIFT based and newer CNN based approaches to this pr
 
 % add Finder background materials 
 
+Majority of the previous approaches work with a static databases, e.g. the whole pipeline/algorithm have to be retrained if we wand to introduce a new type of sample.
+They often have multiple scans/instances available for retrieval and aren't limited by the time it takes to detect and retrieve the relevant object.
+We have only single instance of the coaster available in the collection and want to use our system in real-time environment where prolonged waiting times are inconvenient.
+System also should easily scale to larger collections (thousands of items).
 
 \section{Materials and Methods}
 % - Methods, software, and datasets that you tested and selected. 
@@ -119,6 +123,7 @@ or to determine that no matching beercoaster is present in the image.
 
 
 \subsection{Matcher - Instance Recognition}
+
 
 
 \subsection{Finder\&Matcher Integration}
