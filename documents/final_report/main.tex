@@ -103,7 +103,7 @@ Most of the approaches for the instance recognition were taken from two througho
 where authors compare older SIFT based and newer CNN based approaches to this problem.
 
 Working with small datasets can be tricky since it can lead to overfitted models. Using smaller models increases performance in these cases.\cite{} Data augmentation is also a powerful tool for these situations due to its ability to 
-increase dataset size artificially. \cite{}
+increase dataset size artificially. The technique revolves around creating artificial copies of images with slight variations in specific image attributes, brightness for example. Data augmentation does not alter any biases of the original data set which needs to be complete in its content. Augmenting can also be a lot of work, figuring out the extensiveness of the augmentation approach needs to be done iteratively. \cite{}
 
 % add Finder background materials 
 
@@ -245,7 +245,7 @@ The comparison of the features used by Matcher, the basic SIFT outperformed Root
 We have no explanation of the poor results of R-MAC other than incorrect implementation on our side, since general consensus on R-MAC is that it outperforms standard SIFT based features.
 
 As we can see from the results of the Finder, the training on the Augmented dataset reduced recall and improved precision.
-This behavior might be undesirable in the integrated system since it is better for the Matcher to focus on false positive area rather than to miss the coaster in the scene entirely.
+This behavior might be undesirable in the integrated system since it is better for the Matcher to focus on false positive area rather than to miss the coaster in the scene entirely. To improve the recall of the finder the training data set needs to be expanded to a more coaster like environment to train the model on background objects. Augmentation use would need to be toned down if it were to be used at all.
 The combination of both systems leads to the best results, it allows the Matcher to focus only in potentially interesting areas, as we can se in fig2 where the addition of the Finder narrows area of interest thus decreasing total number of features in the image and prevents matcher from finding an incorrect coaster.
 
 \begin{figure}[H]
