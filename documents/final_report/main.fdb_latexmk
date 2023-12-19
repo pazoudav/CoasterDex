@@ -1,15 +1,17 @@
 # Fdb version 4
-["bibtex main"] 1702923558 "main.aux" "main.bbl" "main" 1702975916 0
+["bibtex main"] 1702985154 "main.aux" "main.bbl" "main" 1702988994 0
   "./References.bib" 1695119749 0 d41d8cd98f00b204e9800998ecf8427e ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/bibtex/bst/ieeetran/IEEEtran.bst" 1440622569 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1702975915 2396 158b609e08d7192760b45722d354bc9a "pdflatex"
+  "main.aux" 1702988993 3108 bdae78ebe6360bb611adc30601245a58 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1702975912 "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" "main.pdf" "main" 1702975916 0
+["pdflatex"] 1702988990 "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" "main.pdf" "main" 1702988994 0
   "C:/Users/pazou/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1700649668 186243 cce28a64161a7feddc97d28fa8495fe4 ""
+  "C:/Users/pazou/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1695120828 11548 77dd71447013008f402574c457937443 ""
   "C:/Users/pazou/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1680784646 23176373 645c469e0b3b20ae7c472af8f1065923 ""
+  "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/tcrm1000.tfm" 993062508 1436 c7f957a372ef2fbe93c0982f96625e12 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1233951848 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1233951854 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -179,12 +181,14 @@
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/trimspaces/trimspaces.sty" 1253169183 1380 971a51b00a14503ddf754cab24c3f209 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/pazou/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" 1702975911 7236 2799d67466dce905bd03d81ae34ecc0e ""
-  "main.aux" 1702975915 2396 158b609e08d7192760b45722d354bc9a "pdflatex"
-  "main.bbl" 1702923558 901 628a2a8c68e066122d1514411e0b8455 "bibtex main"
-  "main.out" 1702975915 1807 9abc26f0b9ebaeb4a1c9553c02d3e32b "pdflatex"
-  "main.tex" 1702975911 7236 2799d67466dce905bd03d81ae34ecc0e ""
-  "main.toc" 1702975915 1113 a909789543f88f58f1fb13ef10a50aa9 "pdflatex"
+  "c:/Users/pazou/Documents/CVUT/COMP/project/documents/final_report/main.tex" 1702988989 15526 d666a54513eadbe88087619e43c0452b ""
+  "img/addedFinder.jpg" 1702985090 648422 6c9e51681edc5ebed32c2c2c6de0f4a1 ""
+  "img/img-rec-pipeline.jpg" 1702978135 160484 57c216068176ed5b998b7c106a87631a ""
+  "main.aux" 1702988993 3108 bdae78ebe6360bb611adc30601245a58 "pdflatex"
+  "main.bbl" 1702985155 901 628a2a8c68e066122d1514411e0b8455 "bibtex main"
+  "main.out" 1702988993 1807 9abc26f0b9ebaeb4a1c9553c02d3e32b "pdflatex"
+  "main.tex" 1702988989 15526 d666a54513eadbe88087619e43c0452b ""
+  "main.toc" 1702988993 1113 ec234be5bb8f418dec6cc23255526529 "pdflatex"
   (generated)
   "main.aux"
   "main.log"

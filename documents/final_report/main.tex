@@ -120,7 +120,7 @@ Finder is an image classification and localization algorithm and its goal is to 
 occurrences of beercoasters $B=\{b_1...b_m\}$ in the image $img$ with their appropriate bounding boxes.
 Matcher is an instance level recognition/retrieval algorithm and its goal is to match 
 a beercoaster from the collection $c \in C$ with a beercoaster $b$ present in the image $img$
-or to determine that no matching beercoaster is present in the image.
+or to determine that there is no matching beercoaster present in the image.
 
 \subsection{Finder - Coaster Detection}
 
@@ -131,6 +131,34 @@ integration.
 
 \subsection{Matcher - Instance Recognition}
 
+There are many approaches to instance recognition/retrieval. 
+The two most popular are "classic" SIFT based approaches and "modern" CCN based approaches.
+The goal of both is to extract one (or multiple) feature vectors of fixed length from the image and compare them to feature vector(s) extracted from the images in the collection and retrieve the most similar images based on similarity of those feature vectors.
+The general pipeline is summarized in fig1.
+It consist of three steps: feature extractions, encoding and indexing/search.
+We opted for a compact representation of the final encoded feature vector, this enables us to easily test both SIFT and CNN base approaches with Nearest Neighbor (NN) search.
+
+\begin{figure}[H]
+    \center
+    \includegraphics[scale=0.5]{img/img-rec-pipeline.jpg}
+    \caption{general instance retrieval pipeline as presented in \cite{}}
+\end{figure}
+
+For SIFT based recognition we tried multiple feature extractors such as SIFT, RootSIFT and ORB.
+Encoding used was VLAD \cite{} from \cite{}.
+For the CNN based recognition we limited ourselves to the Pre-trained CCNs since our dataset was relatively small and unsuitable for finetuning.
+The CNN method chosen was R-MAC \cite{} from \cite{}
+We had trouble finding suitable CNN feature extractor implementations in python (we found multiple in Matlab) so we were unable to compare multiple approaches.
+The search methods tried were Aproximate NN from [pynndescent], Product Quantization (PQ) from [nanopq], Locally Sensitive Hashing (LSH) from [nearpy] and KDTree and BallTree from [sklearn].
+In the end we choose BallTree NN search since it outperformed most of the searches in both time needed to create the search structure and time needed for addition of new element to the search
+It is also suitable for search in high-dimensional spaces. 
+
+The core of the pipeline consists of SIFT feature extractor, VLAD encoding and BallTree search.
+For preprocessing we scale large images to maximum width of 640px while preserving the aspect ratio.
+We convert images to grey-scale and apply Contrast Limited Adaptive Histogram Equalization (CLAHE) \cite{} to increase the number of features extracted in low-light environments. 
+For post processing we compare a number of matching features between the inputted and retrieved images.
+If number of matching features is less then 16 we discard the retrieved image and determine that no matching coaster was found in the image. 
+We also tried and discarded geometric feature matching with RANSAC \cite{} but this greatly increased the processing time needed and usually only let to less then 4 feature matches between the images.
 
 
 \subsection{Finder\&Matcher Integration}
@@ -149,6 +177,10 @@ As the output we have a list of best matched coasters for each bounding box or t
 % - Interpretation of the results. 
 % - How do your results compare to the prior work?
 % - How do they meet the needs of your application?
+Our application is in very specific field, as such we had to create our own dataset for training and testing.
+We tested the Finder and Matcher independently and as a unified system.
+The relevant metrics for finder were recall and precision. For Matcher we opted for accuracy since there are 100+ instances present.
+
 \subsection{Dataset}
 % dataset creation and other stuff
 In making a coaster finder dataset we lacked coasters due to coaster scarcity in Iceland where this project was worked on.
@@ -160,30 +192,77 @@ including faces and 4 photos including beer in a glass were included later upon 
 Heavy augmentation was also used to bring the total image count to 498 images. List of used augments is Flip, 90°Rotate, Crop, Shear, Grayscale, Hue, Brightness, Exposure, Blur,
 Bounding Box: Rotation, Bounding Box: Shear, Bounding Box: Brightness, Bounding Box: Noise. The augments were applied randomly and automatically using roboflow.
 
+\newpage
+
 \subsection{Finder}
 
 To experiment with the finder results a new test dataset was created. The new dataset had 44 images with 50 coasters and various other objects located
 within certain images. Two models were tested, both were fine tuned on yolov5s. One had 184 images, specifically missing the two images containing faces and four images containing beer.
 The second model did contain the previously missing images and was heavily augmented. The results are as follows: 
-Synthetic version:
-    Recall = 0.96, Precision = 0.83
-    Average confidence of correct detections = 0.74
-Augmented version:
-    Recall = 0.9, Precision = 0.85
-    Average confidence of correct detections = 0.78
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ c|c c c } 
+     version & recall & precision & avg conf. \\ \hline
+     Synthetic & 0.96 & 0.83 & 0.74 \\ 
+     Augmented & 0.9 & 0.85 &  0.78 \\ 
+    \end{tabular}
+    \caption{Finder results}
+\end{table}
+% Synthetic version:
+%     Recall = 0.96, Precision = 0.83
+%     Average confidence of correct detections = 0.74
+% Augmented version:
+%     Recall = 0.9, Precision = 0.85
+%     Average confidence of correct detections = 0.78
 
 \subsection{Matcher}
 
+The testing of different feature extractors was done on the Synthetic dataset with VLAD encoder and BallTree search.
+Unfortunately we don't have numerical results for different search methods however while implementing them it was clearly apparent that BallTree and KDTree outperformed all other methods in time needed to retrieve, add and initialize the items.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ c|c c  } 
+    features & accuracy & FPS \\ \hline \hline
+    SIFT     & 0.78     & 1.5 \\ 
+    RootSift & 0.75     & 1.4 \\ 
+    ORB      & 0.38     & 9.1 \\
+    R-MAC    & 0.04     & 0.7 \\ \hline
+    SIFT+Finder & 0.96 & 1.48 \\
+    \end{tabular}
+    \caption{Matcher feature extractor results}
+\end{table}
+
 \subsection{Finder\&Matcher}
 
+The testing of fully integrated system was done on the testing dataset of 44 images, same as testing if the Finder.
+The accuracy achieved with the Finder model trained on the Synthetic dataset was \textbf{0.94}.
 
 \section{Discussion}
+
+The comparison of the features used by Matcher, the basic SIFT outperformed RootSIFT which go against the general consensus on the feature extractors.
+We have no explanation of the poor results of R-MAC other than incorrect implementation on our side, since general consensus on R-MAC is that it outperforms standard SIFT based features.
+
+As we can see from the results of the Finder, the training on the Augmented dataset reduced recall and improved precision.
+This behavior might be undesirable in the integrated system since it is better for the Matcher to focus on false positive area rather than to miss the coaster in the scene entirely.
+The combination of both systems leads to the best results, it allows the Matcher to focus only in potentially interesting areas, as we can se in fig2 where the addition of the Finder narrows area of interest thus decreasing total number of features in the image and prevents matcher from finding an incorrect coaster.
+
+\begin{figure}[H]
+    \center
+    \includegraphics[scale=0.4]{img/addedFinder.jpg}
+    \caption{only Matcher (left), Matcher\&Finder (right)}
+\end{figure}
+
+In section 3.3 we also included results of SIFT features combined with the Finder. The use of Finder on the Synthetic dataset are not representative of Finders general performance since it was trained on this dataset.
+However we might view these as idealized results if the Finder finds the coaster in the image 100\% of the time.
 
 
 \section{Conclusion}
 % - Conclusions and future work
 % - What does your work tell you about the technical feasibility of achieving your goals?
 % - Ideas for future work on the project or spin-offs.
+
 
 
 
